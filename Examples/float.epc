@@ -1,0 +1,39 @@
+############################################################################
+#   Description:
+#
+#   History:
+#
+############################################################################
+
+	.include "macros.epc"
+
+NL:     .byte   10
+CR:     .byte   13
+TAB:    .byte   9
+	
+# Local variables for main
+
+x:      .float  0.0
+
+# Body
+
+main:
+	movf    0.0, x
+
+loop:
+	addf    x, 0.1, x
+	pushl(10)   # Total characters
+	pushl(7)    # Decimal places
+	pushf(x)    # Number to print
+	jl      print_float
+	outputb CR, 0x02
+	outputb NL, 0x02
+	
+	cmpf    x, 10.0
+	ble     loop
+	
+	# Stop simulator
+	halt
+
+	.include "io.epc"
+	

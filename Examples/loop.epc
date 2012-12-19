@@ -1,0 +1,63 @@
+############################################################################
+#   Description:
+#
+#   History:
+#
+############################################################################
+
+	    .include "macros.epc"
+	    
+# Local variables for main
+num:        .long   0
+max_num:    .long   0
+BASE:       .long   10
+
+NL:         .byte   10
+CR:         .byte   13
+TAB:        .byte   9
+
+max_prompt: .string "Enter the maximum number: "
+
+# Body
+
+main:
+	movl    1, num
+
+	# Read in maximum value
+	pushl(&max_prompt)
+	jl      puts
+	
+	pushl(16)
+	jl      read_long
+	movl    r0, max_num
+	#movl    20, max_num
+	
+loop:   # Call print_long
+	pushl(8)
+	pushl(num)
+	jl      print_long
+	
+	outputb TAB, 0x02
+
+	pushl(10)
+	pushl(num)
+	jl      print_long
+	
+	outputb TAB, 0x02
+	
+	pushl(16)
+	pushl(num)
+	jl      print_long
+	
+	outputb NL, 0x02
+	outputb CR, 0x02
+	
+	addl    num, 1, num
+	cmpl    num, max_num
+	ble     loop
+
+	# Stop simulator
+	halt
+
+	.include "io.epc"
+	

@@ -1,0 +1,135 @@
+.TH EPC 1
+.SH NAME    \" Section header
+.PP
+
+EPC \- Educational PC Simulator
+
+\" Convention:
+\" Underline anything that is typed verbatim - commands, etc.
+.SH SYNOPSIS
+.PP
+.nf 
+.na 
+epc program.bin
+.ad
+.fi
+
+.SH OPTIONS
+.TP
+\fB\-\-\flagfR[=\fIparameter\fR]
+description
+
+\" Optional sections
+.SH "PURPOSE"
+
+.B EPC
+is an computer simulator designed specifically for educational use.  It
+is intended for college-level computer science courses dealing with
+computer architecture.
+
+.SH "FEATURES"
+
+.B EPC's.
+features are designed to help students gain a deep understanding of computer
+architecture quickly, so that instructors can focus on teaching concepts
+rather than nitty-gritty details.
+
+This is accomplished by simulating an open standard architecture that is
+realistic, extremely orthogonal, rich in features such as addressing modes,
+interrupts, and instructions, but much simpler in design than modern
+commercial architectures.  Programs written in EPC assembly language
+are far shorter and easier to read than most other assembly languages, but
+not abstract.
+
+.B EPC
+assembly language is tied directly to the EPC hardware
+architecture.  Hence, the student experiences hardware operation first-hand
+while programming EPC.
+
+The primary goal in the design of modern RISC architectures and x86
+architectures was low production cost, rather than ease of programming.
+This approach is based on the (valid) assumption that most programs
+are now written in high-level languages, so there is little point in
+designing a processor that's easy to understand and program.
+
+The
+.B EPC
+architecture, in contrast, is meant to be easy to learn and free from
+quirks, nuisances, and special considerations present in modern commercial
+architectures.
+
+.B EPC
+also provides detailed feedback on the execution of each program, including
+total instruction cycles, clock cycles, memory references, cache
+performance,
+etc.  This
+feedback directly teaches students how to optimize their code to take better
+advantage of hardware features.
+
+The programming process is also realistic, including an assembler (asepc,
+based on plasm, the portable assembler) with an optional preprocessor (app)
+that handles macros and includes, and an object code linker.  The system
+includes support for relocatable code.
+
+While rich in features, EPC also has a minimal learning curve.  Students
+can start simple, just assembling and running programs that require minimal
+knowledge, and gradually learn more advanced features over time.
+
+.SH "DESCRIPTION"
+
+.B EPC
+runs machine code for the EPC architecture, produced by the
+.B asepc
+assembler.
+
+The EPC architecture in a nutshell, is a 3-operand, memory-to-memory
+architecture inspired by acclaimed orthogonal architectures such as the DEC
+PDP series, DEC VAX, and Motorola 68000 series (now known as ColdFire,
+and popular in embedded applications).
+
+.B EPC
+is written to the POSIX standard, so it runs on any platform (including
+Windows with Cygwin or Interix).  Simulator behavior is guaranteed to 
+be identical on all platforms, so students can work on their own computers,
+provided the same version is running on school systems.
+
+To use
+.B EPC:
+
+1. Edit the assembly source code, file.epc
+
+2. Assembly the code using
+.B asepc:
+
+.nf
+.na
+    asepc program.epc
+.ad
+.fi
+
+3. Run the machine code output:
+
+.nf
+.na
+    epc program.bin
+.ad
+.fi
+
+.B APE
+(Another Programmer's Editor) is a free terminal-based integrated
+development environment which supports the use of
+.B EPC
+with syntax colorization and build-and-run from within the IDE.
+
+.SH "SEE ALSO"
+plasm, asepc, ape
+
+.SH BUGS
+Please report bugs to the author and send patches in unified diff format.
+(man diff for more information)
+
+.SH AUTHOR
+.nf
+.na
+Jason W. Bacon
+

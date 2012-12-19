@@ -1,0 +1,121 @@
+
+
+	.macro  pushl($var)
+	movl    $var, -(sp)
+	.end_macro
+
+
+ok_msg:     .string "OK\r\n\0"
+error_msg:  .string "Error.\r\n\0"
+passed_msg: .string "All tests passed.\r\n\0"
+
+blt_msg:    .string "Testing blt <, =, and >\r\n\0"
+
+ptr:        .long   0
+ch:         .byte   0
+
+
+#############################################
+# Test all addressing modes and pseudo-modes
+#############################################
+
+# Byte operand fetch
+
+	# Immediate and register direct
+	movb    48, r0
+	outputb r0, 0x02
+	
+	# Register indirect
+	movb    49, ch
+	movl    &ch, r0
+	outputb (r0), 0x02
+	
+	# Autoincrement
+	outputb (r0)+, 0x02
+	
+	# Autodecrement
+	outputb -(r0), 0x02
+
+	# Offset
+	movb    0, r0
+	movs    0, r0
+	movl    0, r0
+	outputb ch(r0), 0x02
+	
+	# Address-of
+	movl    &ch, r0
+	outputb 0(r0), 0x02
+	
+	subl    r0, 1, r0
+	outputb 1(r0), 0x02
+	
+	# Memory direct
+	outputb ch, 0x02
+	
+	# Memory indirect
+	movl    &ch, ptr
+	outputb (ptr), 0x02
+	
+	# Immediate-address (must know address of ch)
+	# outputb (0x0020014a), 0x02
+
+	outputb 10, 0x02
+	outputb 13, 0x02
+	
+# Short operands
+# Long operands
+
+#############################################
+# Test arith instructions
+#############################################
+
+#############################################
+# Test logic instructions
+#############################################
+
+#############################################
+# Test compare and branch instructions
+#############################################
+
+	movb    1, r0
+	movb    2, r1
+	movb    1, r2
+
+####
+# j
+	
+######
+# blt
+	movl    &blt_msg, r13
+	jl      puts
+	
+	# blt <
+	cmpb    r0, r1
+	blt     ok1
+	j       error
+ok1:    movl    &ok_msg, r13
+	jl      puts
+
+	# blt =
+	cmpb    r0, r2
+	blt     error
+	movl    &ok_msg, r13
+	jl      puts
+	
+	# blt >
+	cmpb    r1, r0
+	blt     error
+	movl    &ok_msg, r13
+	jl      puts
+	
+	# All tests passed
+	movl    &passed_msg, r13
+	jl      puts
+	halt
+
+error:  movl    &error_msg, r13
+	jl      puts
+	halt
+
+	.include    "puts.epc"
+

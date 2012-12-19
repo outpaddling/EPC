@@ -1,0 +1,13 @@
+
+main:
+	# Input one byte from keyboard
+	inputb  0x02, r0
+	# Output one byte to screen
+	outputb r0, 0x02
+	cmpb    r0, 10
+	beq     done
+	cmpb    r0, 13
+	bne     main
+done:
+	halt
+

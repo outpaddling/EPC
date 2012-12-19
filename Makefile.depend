@@ -1,0 +1,8 @@
+epc.o: epc.c /usr/local/include/twintk.h /usr/local/include/twintk_term.h \
+  /usr/local/include/twintk_image.h /usr/local/include/twintk_mouse.h \
+  epc.h protos.h
+	${CC} -c ${CFLAGS} epc.c
+
+float_endian.o: float_endian.c
+	${CC} -c ${CFLAGS} float_endian.c
+
