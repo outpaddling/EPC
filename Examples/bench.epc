@@ -1,0 +1,11 @@
+
+x:      .long   0
+
+main:
+	movl    10000000, r0
+loop:
+	subl    r0, 1, r0
+	cmpl    r0, 0
+	bne     loop
+	halt
+

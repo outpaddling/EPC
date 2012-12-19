@@ -1,0 +1,12 @@
+
+No error checking in syscalls
+
+Only two I/O devices
+
+RISC CPUs are too hard to program
+    One hand tied behind back
+
+No efficient software polling
+
+Very poor error reporting
+

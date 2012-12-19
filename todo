@@ -1,0 +1,23 @@
+
+printf function in io lib
+
+Force use of string<->number conversions for all I/O?
+
+Sleep function to save CPU time
+
+Use "branch" for conditionals, "jump" for unconditionals
+    More indicative language
+
+Onboard devices
+    Keyboard
+    Display
+    Disk
+    Timer
+    
+Plug-and-play virtual I/O devices
+    Separate process for each device to simulate independent hardware
+    Shared memory segment to simulate I/O bus and address space
+    Auto-assign:
+	I/O address range
+	Interrupt #
+	DMA

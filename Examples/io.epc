@@ -1,0 +1,290 @@
+############################################################################
+#   Description:
+#
+#   Arguments:
+#
+#   History:
+#
+############################################################################
+
+# Local variables (prefix names with subprogram name)
+print_long_base:    .long   0
+print_long_num:     .long   0
+print_long_pow:     .long   0
+print_long_digit:   .long   0
+print_long_ra:      .long   0
+
+# Body
+
+print_long:
+	
+	# Get arguments from stack
+	popl(print_long_ra)     # Get return address out of the way
+	popl(print_long_num)
+	popl(print_long_base)
+	pushl(print_long_ra)    # Put return address back for ret
+	
+	# Determine highest power of base that fits in number
+	movl    print_long_base, print_long_pow
+print_long_get_pow:
+	cmpl    print_long_pow, print_long_num
+	bgt     print_long_print
+	mull    print_long_pow, print_long_base, print_long_pow
+	j       print_long_get_pow
+
+	# Print digits from left to right
+print_long_print:
+	#movl    1000, print_long_pow
+	
+	# Reduce power for next digit
+	divl    print_long_pow, print_long_base, print_long_pow
+	
+	# Extract leftmost digit
+	divl    print_long_num, print_long_pow, print_long_digit
+	reml    print_long_num, print_long_pow, print_long_num
+	
+	# Convert to ASCII/ISO
+	cmpl    print_long_digit, 10
+	bge     print_long_big_digit
+	addl    print_long_digit, 48, print_long_digit
+	j       print_long_output
+print_long_big_digit:
+	addl    print_long_digit, 87, print_long_digit
+
+	# Print digit
+print_long_output:
+	outputb print_long_digit, 0x02
+	
+	# Another digit?
+	cmpl    print_long_pow, 1
+	bgt     print_long_print
+	
+	# Return to caller
+	ret
+
+
+############################################################################
+#   Description:
+#
+#   Arguments:
+#
+#   History:
+#
+############################################################################
+
+read_long_ra:       .long   0
+read_long_base:     .long   0
+read_long_digit:    .long   0
+read_long_ch:       .byte   0
+read_long_bad_digit:    .string "Invalid digit.\r\n\0"
+
+read_long:
+	# Get arguments from stack
+	popl(read_long_ra)
+	popl(read_long_base)
+	pushl(read_long_ra)
+	
+	movl    0, r0
+	
+read_long_getch:
+	inputb  0x02, read_long_ch
+	outputb read_long_ch, 0x02
+	cmpb    read_long_ch, 13
+	beq     read_long_done
+	
+	cmpb    read_long_ch, 97    # 'a'
+	bge     read_long_lc
+	cmpb    read_long_ch, 65    # 'A'
+	bge     read_long_uc
+
+	# Digit < 10
+	# Result can be a long since epc is little endian
+	# and the other bytes are 0.
+	subb    read_long_ch, 48, read_long_digit   # - '0'
+	j       read_long_add_digit
+
+read_long_lc:
+	cmpb    read_long_ch, 122
+	bgt     read_long_error
+	subb    read_long_ch, 112, read_long_digit  # - 'a' + 10
+
+read_long_uc:
+	cmpb    read_long_ch, 90
+	bgt     read_long_error
+	subb    read_long_ch, 80, read_long_digit   # - 'A' + 10
+	
+	# Add digit to number so far
+read_long_add_digit:
+	mull    r0, read_long_base, r0
+	addl    r0, read_long_digit, r0
+	j       read_long_getch
+
+read_long_done:
+
+	outputb 10, 0x02
+	
+	# Return to caller
+	ret
+
+read_long_error:
+	pushl(&read_long_bad_digit)
+	jl      puts
+	halt
+
+############################################################################
+#   Description:
+#
+#   Arguments:
+#
+#   History:
+#
+############################################################################
+
+puts_ra:    .long   0
+
+puts:
+	# Get arguments from stack
+	popl(puts_ra)
+	popl(r0)
+	pushl(puts_ra)
+
+puts_loop:
+	outputb (r0)+, 0x02
+	cmpb    (r0), 0
+	bne     puts_loop
+	ret
+
+
+############################################################################
+#   Description:
+#
+#   Arguments:
+#
+#   History:
+#
+############################################################################
+
+# Local variables (prefix names with subprogram name)
+print_float_base:   .float  10.0
+print_float_num:    .float  0.0
+print_float_pow:    .float  0.0
+print_float_pow2:   .float  0.0
+print_float_temp:   .float  0.0
+
+print_float_ra:             .long   0
+print_float_digit:          .long   0
+print_float_total_digits:   .long   0
+print_float_decimal_places: .long   0
+print_float_chars:          .long   0
+print_float_whole_digits:   .long   0
+print_float_first_digit:    .long   0
+
+# Body
+
+print_float:
+	
+	popl(print_float_ra)     # Get return address out of the way
+	
+	# Get arguments from stack
+	popf(print_float_num)
+	popl(print_float_decimal_places)
+	popl(print_float_chars)
+
+	pushl(print_float_ra)    # Put return address back for ret
+	
+	# Flag that no real digit has been printed yet
+	movl    1, print_float_first_digit
+	
+	# Determine highest power of base
+	movf    1.0, print_float_pow
+print_float_get_pow:
+	mulf    print_float_pow, print_float_base, print_float_pow
+	cmpf    print_float_pow, print_float_num
+	ble     print_float_get_pow
+	
+	# Use larger of digits specified or min required
+	subl    print_float_chars, print_float_decimal_places, print_float_whole_digits
+	subl    print_float_whole_digits, 1, print_float_whole_digits
+	
+	movf    1.0, print_float_pow2
+print_float_get_pow2:
+	subl    print_float_whole_digits, 1, print_float_whole_digits
+	mulf    print_float_pow2, 10.0, print_float_pow2
+	cmpl    print_float_whole_digits, 0
+	bgt     print_float_get_pow2
+	
+	cmpl    print_float_pow, print_float_pow2
+	bge     print_float_print
+	movl    print_float_pow2, print_float_pow
+
+	# Print digits from left to right
+print_float_print:
+	# Reduce power for next digit
+	divf    print_float_pow, print_float_base, print_float_pow
+	
+	# Extract leftmost digit
+	divf    print_float_num, print_float_pow, print_float_temp
+	
+	# Truncate digit to integer
+	movfl   print_float_temp, print_float_digit
+	
+	# Remove digit from num
+	movlf   print_float_digit, print_float_temp
+	mulf    print_float_temp, print_float_pow, print_float_temp
+	subf    print_float_num, print_float_temp, print_float_num
+	
+	# Print digit
+	
+	# If non-zero or 1's digit or a real digit has been printed before,
+	# print the real thing and stop printing leading spaces.
+	
+	# Non-zero?
+	cmpl    print_float_digit, 0
+	bne     print_float_real_digit
+	
+	# A real digit has been printed before?
+	cmpl    print_float_first_digit, 1
+	bne     print_float_real_digit
+	
+	# 1's digit?
+	cmpl    print_float_pow, 1.0
+	ble     print_float_real_digit
+	
+	# Print leading space
+	outputb 32, 0x02
+	j       print_float_next_digit
+	
+print_float_real_digit:
+
+	# Flag that a real digit has been printed
+	movl    0, print_float_first_digit
+	
+	# Convert digit to ASCII
+	addl    print_float_digit, 48, print_float_digit
+	outputb print_float_digit, 0x02
+	j       print_float_next_digit
+
+	# Print decimal point
+print_float_next_digit:
+	
+	# If 1's digit just printed, print the decimal point.
+	cmpf    print_float_pow, 1.0
+	bne     print_float_no_dot
+	outputb 46, 0x02
+	
+print_float_no_dot:
+
+	# Count only fractional digits to determine when to stop
+	cmpf    print_float_pow, 1.0
+	bge     print_float_no_count
+	subl    print_float_decimal_places, 1, print_float_decimal_places
+	
+print_float_no_count:
+
+	# Another digit?
+	cmpl    print_float_decimal_places, 0
+	bgt     print_float_print
+	
+	# Return to caller
+	ret
+

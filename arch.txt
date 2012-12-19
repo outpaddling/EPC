@@ -1,0 +1,308 @@
+
+Goal
+----
+Emulate a complete computer with the simplest possible architecture.
+
+
+Endianness
+----------
+Little endian.  ( byte, short, and long words all have same address )
+
+
+Types
+-----
+byte    b
+short   s
+long    l
+quad    q
+float   f
+double  d
+
+address a
+
+
+Instruction set
+---------------
+Jump:
+
+j       label               00 aa     
+jl      label               01 aa
+ret                         0e
+
+jeq     label               02 aa   z = 1
+jne     label               03 aa   z = 0
+
+jlt     label               04 aa   n = 1
+jle     label               05 aa   n = 1 or z = 1
+jltu    label               --      c = 0 (jnc)
+jleu    label               06 aa   c = 0 or z = 1
+
+jgt     label               07 aa   n = 0 and z = 0
+jge     label               08 aa   n = 0 or z = 1
+jgtu    label               09 aa   c = 1 and z = 0
+jgeu    label               --      c = 1 (joc)
+
+joc     label               0a aa   c = 1
+jnc     label               0b aa   c = 0
+jov     label               0c aa   v = 1
+jnv     label               0d aa   v = 0
+
+Move:
+
+movb    src, dest           10 ss dd    z, n
+movs    src, dest           11 ss dd        
+movl    src, dest           12 ss dd
+movq    src, dest           13 ss dd
+
+movfd   src, dest           14 ss dd
+movdf   src, dest           15 ss dd
+movlf   src, dest           16 ss dd
+movfl   src, dest           17 ss dd
+
+Move pseudo-instructions:
+
+movf = movl
+movd = mofq
+
+pushX = movX src, -(sp)
+popX  = movX (sp)+, src
+
+Compare:
+
+cmpb    src, src            20 ss ss    
+cmps    src, src            21 ss ss
+cmpl    src, src            22 ss ss
+cmpq    src, src            23 ss ss
+
+Results for integer comparison:
+    n = msb of s1 - s2      1 if s1 < s2 signed
+    c = carry from s1 - s2  1 if s1 >= s2 unsigned
+    v = sign mismatch (sign1 == sign2) && (result sign != sign1)
+    z = zero                1 if all bits are 0
+
+cmpf    src, src            24 ss ss
+cmpd    src, src            25 ss ss
+
+Logic:
+
+notb    src, dest           30 ss dd
+nots    src, dest           31 ss dd
+notl    src, dest           32 ss dd
+notq    src, dest           33 ss dd
+
+andb    src, src, dest      34 s1 s2 dd
+ands    src, src, dest      35 s1 s2 dd
+andl    src, src, dest      36 s1 s2 dd
+andq    src, src, dest      37 s1 s2 dd
+
+orb     src, src, dest      38 s1 s2 dd
+ors     src, src, dest      39 s1 s2 dd
+orl     src, src, dest      3a s1 s2 dd
+orq     src, src, dest      3b s1 s2 dd
+
+xorb    src, src, dest      3c s1 s2 dd
+xors    src, src, dest      3d s1 s2 dd
+xorl    src, src, dest      3e s1 s2 dd
+xorq    src, src, dest      3f s1 s2 dd
+
+sllb    src, cnt, dest      40 s1 s2 dd
+slls    src, cnt, dest      41 s1 s2 dd
+slll    src, cnt, dest      42 s1 s2 dd
+sllq    src, cnt, dest      43 s1 s2 dd
+
+srlb    src, cnt, dest      44 s1 s2 dd
+srls    src, cnt, dest      45 s1 s2 dd
+srll    src, cnt, dest      46 s1 s2 dd
+srlq    src, cnt, dest      47 s1 s2 dd
+
+srab    src, cnt, dest      48 s1 s2 dd
+sras    src, cnt, dest      49 s1 s2 dd
+sral    src, cnt, dest      4a s1 s2 dd
+sraq    src, cnt, dest      4b s1 s2 dd
+
+rolb    src, cnt, dest      4c s1 s2 dd
+rols    src, cnt, dest      4d s1 s2 dd
+roll    src, cnt, dest      4e s1 s2 dd
+rolq    src, cnt, dest      4f s1 s2 dd
+
+Pseudo-instructions:
+
+rorb    src, cnt, dest      rolb    src, 8-cnt, dest
+rors    src, cnt, dest      rols    src, 16-cnt, dest
+rorl    src, cnt, dest      roll    src, 32-cnt, dest
+rorq    src, cnt, dest      rolq    src, 64-cnt, dest
+
+Arithmetic:
+
+addb    src, src, dest      60 s1 s2 dd
+adds    src, src, dest      61 s1 s2 dd
+addl    src, src, dest      62 s1 s2 dd
+addq    src, src, dest      63 s1 s2 dd
+
+addf    src, src, dest      64 s1 s2 dd
+addd    src, src, dest      65 s1 s2 dd
+
+subb    src, src, dest      70 s1 s2 dd
+subs    src, src, dest      71 s1 s2 dd
+subl    src, src, dest      72 s1 s2 dd
+subq    src, src, dest      73 s1 s2 dd
+
+subf    src, src, dest      74 s1 s2 dd
+subd    src, src, dest      75 s1 s2 dd
+
+mulb    src, src, dest      80 s1 s2 dd
+muls    src, src, dest      81 s1 s2 dd
+mull    src, src, dest      82 s1 s2 dd
+mulq    src, src, dest      83 s1 s2 dd
+
+mulf    src, src, dest      84 s1 s2 dd
+muld    src, src, dest      85 s1 s2 dd
+
+divb    src, src, dest      90 s1 s2 dd
+divs    src, src, dest      91 s1 s2 dd
+divl    src, src, dest      92 s1 s2 dd
+divq    src, src, dest      93 s1 s2 dd
+
+divf    src, src, dest      94 s1 s2 dd
+divd    src, src, dest      95 s1 s2 dd
+
+remb    src, src, dest      a0 s1 s2 dd
+rems    src, src, dest      a1 s1 s2 dd
+reml    src, src, dest      a2 s1 s2 dd
+remq    src, src, dest      a3 s1 s2 dd
+
+Separate I/O avoids the need for if checks on every memory reference,
+so the emulator can run much faster.
+
+inputb  address, dest       b0 ss dd
+outputb src, address        b1 ss dd
+
+Interrupt enable/disable.  Src = 0 to 255
+
+ion     src
+ioff    src
+
+
+Addressing modes
+----------------
+register direct     rX                      0X
+register indirect   (rX)                    1X
+autoincrement       (rX)+                   2X
+autodecrement       -(rX)                   3X
+offset              num(rX) or label(rX)    4X offset
+memory direct       label                   f0
+memory indirect     (label)                 f1
+
+Pseudo-modes:
+
+immediate           num | &label            2f
+immediate address   (num)                   f0
+
+
+Registers
+---------
+R0 - R15
+
+R15 = PC
+R14 = SP
+
+	+--------+--------+--------+--------+
+Status  |xxxxxxxx|xxxxxxxx|xxxxxxxx|xxDIVNCZ|
+	+--------+--------+--------+--------+
+    
+    Z   zero
+    C   carry
+    N   negative
+    V   overflow
+    
+    I   global interrupt enable
+    D   debug trap
+    
+
+Busses
+------
+64-bit data bus
+32-bit I/O bus
+32-bit address bus
+
+
+Memory map
+----------
+00000000 - 000003ff Interrupt vectors       256 vectors (1024 bytes)
+
+    00000000    Interrupt 0
+    00000004    Interrupt 1
+    ...
+    000003fc    Interrupt 255
+
+00000400 - 00000fff Future expansion
+
+00001000 - 00100fff Firmware                1 megabyte
+
+00800000 - ffffffff Program memory
+
+
+I/O Addresses
+-------------
+00001000 - 00004fff Device registers        4096 registers
+    00000000    Keyboard
+    00000004    Video mode
+    00000008    Serial 1
+
+00400000 - 007fffff Video RAM               4 megabytes 
+    Mode 0
+	16 bits / char
+	    address = base + 2 * (row * 80 + col)
+	80x25 text
+	ISO-latin1
+	4 bit foreground
+	4 bit background
+
+
+Exceptions
+----------
+Vectors
+
+0   Illegal instruction
+1   Breakpoint
+2   Floating point overflow
+3   Floating point underflow
+4   Divide by zero
+5   
+6   
+7
+
+252
+253
+254 Disk
+255 Keyboard
+
+
+DMA
+---
+Not yet implemented.
+
+
+Disk
+----
+Emulate using subset of RBC protocol
+
+
+Display
+-------
+Video RAM mapped into main memory address space
+
+
+Cache
+-----
+1-level small cache to measure measure locality of reference
+
+
+VM
+--
+
+
+I/O Device Plugins
+------------------
+Plug-and-play I/O address, interrupt and DMA allocation
+

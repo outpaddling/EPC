@@ -1,0 +1,6 @@
+puts:   
+	outputb (r13)+, 0x02
+	cmpb    (r13), 0
+	bne     puts
+	ret             # movl    (r14)+, r15
+

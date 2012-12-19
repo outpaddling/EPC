@@ -1,0 +1,19 @@
+
+Do nothing behind the user's back
+    Adding CR to NL
+
+Let students do anything that's relatively easy and will remind them
+how things really work.
+    Define their own push and pop macros
+    Null terminate their own strings
+
+Provide a lot of feedback
+    Accurate and descriptive error messages
+	Stack underflow
+	Illegal instruction
+	Illegal addressing mode
+
+Not designed for speed
+    Accurately simulate the instruction cycle, no cheats
+    Gathers much information about program execution
+    

@@ -1,0 +1,59 @@
+
+Easy to program
+    Short programs
+    Descriptive variable names instead of registers or extra code
+    Programming RISC is like programming with one hand tied behind
+    your back.  (added difficulty with no benefit)
+    
+Easy to teach
+
+Provides contrast RISC and M2R architectures in case studies
+
+Can directly compare register and memory performance by replacing
+a variable with a register
+
+Convenient for students
+    Runs on any platform
+    No graphical interface required
+
+Students get good feedback
+    Helpful error messages from assembler and emulator
+	Saves enormous amounts of time on programming assignments
+    Performance metrics
+	Students always know how efficient their code is
+	Teachers can easily grade on efficiency
+
+More students will succeed on programming assignments
+
+More time to focus on important concepts
+    Dealing with 
+    No need to dumb-down exams because students are lost
+
+Criticisms
+    Not a real architecture
+	irrelevant
+	    it's the concepts that are important in college
+		number systems
+		using registers, memory
+		interrupts, dma
+	    using an easy-to-program instruction set allows you
+	    to focus on the important things
+    
+    Memory to memory is dead
+	because nobody programs in assembly anymore
+	
+	again, the instruction set students learn is not important,
+	so it should be made as easy as possible, to allow focusing on
+	important concepts
+	
+	students who a memory-to-memory architecture in college will
+	have no trouble figuring out register-to-memory and risc
+	architectures on their own.
+	
+	students who do get a chance to practice with interrupts and dma
+	(because there wasn't enough time) will have much more difficulty
+
+AL closely correlates to ML
+
+Somewhat based on VAX, but not intended to be a subset
+

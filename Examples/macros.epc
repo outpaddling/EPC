@@ -1,0 +1,16 @@
+	.macro  pushl($val)
+	movl    $val, -(r14)
+	.end_macro
+	
+	.macro  popl($val)
+	movl    (r14)+, $val
+	.end_macro
+
+	.macro  pushf($val)
+	movf    $val, -(r14)
+	.end_macro
+	
+	.macro  popf($val)
+	movf    (r14)+, $val
+	.end_macro
+	

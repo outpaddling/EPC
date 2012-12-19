@@ -1,0 +1,9 @@
+********************************************************************
+*   Test program for 68k assembly language
+
+var:    dc.w    0
+
+start:  mov.w   var, #0
+	add.w   var, #2
+	stop
+
