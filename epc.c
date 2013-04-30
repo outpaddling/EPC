@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <sysexits.h>
 #include <twintk.h>
-#include "epc.h"
+#include <epc.h>        /* Provided by plasm */
 #include "protos.h"
 
 /*
