@@ -1,9 +1,6 @@
 
-
-	.macro  pushl($var)
-	movl    $var, -(sp)
-	.end_macro
-
+	.include    "macros.epc"
+	.include    "io.epc"
 
 ok_msg:     .string "OK\r\n\0"
 error_msg:  .string "Error.\r\n\0"
@@ -116,6 +113,4 @@ ok1:    movl    &ok_msg, r13
 error:  movl    &error_msg, r13
 	jl      puts
 	halt
-
-	.include    "puts.epc"
 

@@ -122,7 +122,7 @@ development environment which supports the use of
 with syntax colorization and build-and-run from within the IDE.
 
 .SH "SEE ALSO"
-plasm, asepc, ape
+asepc, papp, ape
 
 .SH BUGS
 Please report bugs to the author and send patches in unified diff format.

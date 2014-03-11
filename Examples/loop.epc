@@ -5,7 +5,8 @@
 #
 ############################################################################
 
-	    .include "macros.epc"
+	.include "macros.epc"
+	.include "io.epc"
 	    
 # Local variables for main
 num:        .long   0
@@ -27,7 +28,7 @@ main:
 	pushl(&max_prompt)
 	jl      puts
 	
-	pushl(16)
+	pushl(10)
 	jl      read_long
 	movl    r0, max_num
 	#movl    20, max_num
@@ -58,6 +59,4 @@ loop:   # Call print_long
 
 	# Stop simulator
 	halt
-
-	.include "io.epc"
 	
