@@ -2119,7 +2119,7 @@ void    print_stats(stats_t *stats)
     printf("%qu instructions executed.\n", stats->instruction_count);
     // Clock cycles
     /* Not finished */
-    printf("%qu clock cycles (ball park).\n", stats->clock_cycles);
+    printf("%qu clock cycles.\n", stats->clock_cycles);
     // Memory references
     printf("%qu memory reads, %qu unaligned.\n",
 	    stats->memory_reads, stats->unaligned_reads);
