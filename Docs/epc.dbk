@@ -52,12 +52,44 @@
 	    
 	    <itemizedlist>
 		<listitem>
+		<para>
+		Modern commercial CPUs are designed primarily to be
+		fast and cheap.  Some of the most important
+		goals are performance/cost and performance/watt.  To
+		accomplish these goals, sacrifices are often made to
+		ease of use, leading to confusing instruction sets and
+		inconsistencies in the hardware design.  Hence, these
+		architectures are not at all programmer-friendly.
+		</para>
+		
+		<para>
+		This is necessarily not a bad thing in today's computer
+		industry, since the only people typically affected
+		by it are the handful of geniuses who write compilers.
+		</para>
+		
+		<para>
+		However, for teaching a course in assembly language and
+		computer architecture, a far more programmer-friendly
+		instruction set is highly desirable.  This will allow
+		students to learn a great deal more about computer
+		arhcitecture in general, since they won't lose time
+		struggling with an overly difficult language.
+		</para>
+		
+		<para>
 		The EPC architecture is much easier to learn and use
 		than most modern commercial architectures.  The instruction
-		set and machine code format are simple, but complete.
-		Students will not be overwhelmed with complexity and
-		will be exposed to all major computer architecture concepts
-		such as memory hierarchy, addressing modes, etc.
+		set and machine code format are simple and orthogonal,
+		but complete.
+		</para>
+		
+		<para>
+		Students will not be overwhelmed with complexity and therefore
+		can be exposed to all major computer architecture concepts
+		such as memory hierarchy, addressing modes, etc. within
+		the confines of a typical college semester.
+		</para>
 		</listitem>
 		
 		<listitem>
@@ -65,8 +97,8 @@
 		</listitem>
 		
 		<listitem>
-		The EPC simulator is written in ANSI C and the assembler
-		is written in ANSI C++.  Both are designed to be portable to
+		The EPC simulator is written in ISO C and the assembler
+		is written in ISO C++.  Both are designed to be portable to
 		any POSIX-compatible platform.  This includes any Unix-like
 		system, including Mac OS X, and MS Windows running Cygwin
 		or any other POSIX compatibility system.
@@ -173,6 +205,83 @@
 	
 	<section>
 	    <title>Instruction Set</title>
+	    
+	    <section>
+		<title>Jump Instructions</title>
+
+		<section>
+		    <title>j</title>
+		    
+		    <para>
+		    j label
+		    </para>
+		    
+		    <table frame='all'>
+			<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+			    <thead>
+			    <row>
+				<entry>opcode</entry>
+				<entry>arguments</entry>
+			    </row>
+			    </thead>
+			    
+			    <tbody>
+			    <row>
+				<entry>00</entry>
+				<entry>aa</entry>
+			    </row>
+			    </tbody>
+			</tgroup>
+		    </table>
+		    
+		    <para>
+		    Jump unconditionally to address 'label'.
+		    </para>
+		</section>
+		<screen>
+j       label               00 aa     
+jl      label               01 aa
+ret                         0e
+
+jeq     label               02 aa   z = 1
+jne     label               03 aa   z = 0
+
+jlt     label               04 aa   n = 1
+jle     label               05 aa   n = 1 or z = 1
+jltu    label               --      c = 0 (jnc)
+jleu    label               06 aa   c = 0 or z = 1
+
+jgt     label               07 aa   n = 0 and z = 0
+jge     label               08 aa   n = 0 or z = 1
+jgtu    label               09 aa   c = 1 and z = 0
+jgeu    label               --      c = 1 (joc)
+
+joc     label               0a aa   c = 1
+jnc     label               0b aa   c = 0
+jov     label               0c aa   v = 1
+jnv     label               0d aa   v = 0
+		</screen>
+	    </section>
+	    
+	    <section>
+		<title>Move Instructions</title>
+	    </section>
+	    
+	    <section>
+		<title>Comparison Instructions</title>
+	    </section>
+	    
+	    <section>
+		<title>Bit/Logic Instructions</title>
+	    </section>
+	    
+	    <section>
+		<title>Arithmetic Instructions</title>
+	    </section>
+	    
+	    <section>
+		<title>Input/Output Instructions</title>
+	    </section>
 	</section>
 	
 	<section>
