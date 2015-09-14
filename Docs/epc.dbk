@@ -7,6 +7,65 @@
 	<title>Goals</title>
 	
 	<section>
+	    <title>Philosophy</title>
+	    
+	    <para>
+	    Based on many years of experience teaching computer architecture
+	    and assembly language, EPC is designed with a few primary goals
+	    in mind:
+	    </para>
+	    
+	    <itemizedlist>
+		<listitem>
+		Maximize learning opportunities for students
+		</listitem>
+		
+		<listitem>
+		Minimize needless difficulty
+		</listitem>
+		
+		<listitem>
+		Similate the development process as well as the machine
+		</listitem>
+	    </itemizedlist>
+	    
+	    <para>
+	    Learning opportunities are maximized by providing a feature-rich
+	    simulator, providing extensive feedback on each program run, and 
+	    leaving as much as possible to students to do for themselves.
+	    The EPC simulator includes only
+	    essential macros for getting started with assembly language
+	    programming. such as basic terminal input and output.  All other
+	    high-level software functions are intentionally left for students
+	    to design themselves, so they can experience "bare-metal"
+	    programming to the fullest.
+	    </para>
+	    
+	    <para>
+	    Difficuly is minimized by creating an assembly language that
+	    is easy to learn and use and a simple, orthogonal machine code
+	    format.  Modern commercial CISC architectures are far too complex
+	    to use in an introductory course.  RISC architectures make the
+	    programming process too arduous and confusing.  EPC allows the
+	    development of short, self-documenting code, so efforts can
+	    be focused on learning the principals of machine language and
+	    computer architecture.
+	    </para>
+	    
+	    <para>
+	    The development environment requires use of a real assembler and
+	    macro preprocessor, so students become familiar with the process
+	    of generating machine code in the real world.
+	    </para>
+	    
+	    <para>
+	    More details about EPC features are discussed in the sections
+	    that follow.
+	    <xref linkend=""/>.
+	    </para>
+	</section>
+	
+	<section>
 	    <title>Audience</title>
 	    
 	    <para>

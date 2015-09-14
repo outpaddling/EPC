@@ -17,46 +17,52 @@ NL:         .byte   10
 CR:         .byte   13
 TAB:        .byte   9
 
+screen:     .byte   0x02
+
 max_prompt: .string "Enter the maximum number: "
 
 # Body
 
 main:
+	# Prime loop
 	movl    1, num
 
-	# Read in maximum value
+	# Print prompt for maximum value
 	pushl(&max_prompt)
 	jl      puts
 	
-	pushl(10)
+	# Read max value from the keyboard to r0
+	pushl(10)           # Input in decimal
 	jl      read_long
 	movl    r0, max_num
-	#movl    20, max_num
 	
-loop:   # Call print_long
-	pushl(8)
+loop:
+	# Print number in various bases
+	pushl(8)            # Print in octal
 	pushl(num)
 	jl      print_long
 	
 	outputb TAB, 0x02
 
-	pushl(10)
+	pushl(10)           # Print in decimal
 	pushl(num)
 	jl      print_long
 	
 	outputb TAB, 0x02
 	
-	pushl(16)
+	pushl(16)           # Print in hexadecimal
 	pushl(num)
 	jl      print_long
 	
+	# Start a new line
 	outputb NL, 0x02
 	outputb CR, 0x02
 	
+	# Next loop iteration
 	addl    num, 1, num
 	cmpl    num, max_num
 	ble     loop
 
 	# Stop simulator
 	halt
-	
+

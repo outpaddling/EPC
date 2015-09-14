@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <sysexits.h>
 #include <twintk.h>
-#include <epc.h>        /* Provided by plasm */
+#include "epc.h"
 #include "protos.h"
 
 /*
@@ -792,20 +792,6 @@ static inline void jgeu(void)
     
     if ( Status.c == 1 )
 	PC = address;
-}
-
-
-static inline void joc(void)
-
-{
-    jgeu();
-}
-
-
-static inline void jnc(void)
-
-{
-    jltu();
 }
 
 
