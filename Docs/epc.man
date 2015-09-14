@@ -16,8 +16,7 @@ epc program.bin
 
 .SH OPTIONS
 .TP
-\fB\-\-\flagfR[=\fIparameter\fR]
-description
+None
 
 \" Optional sections
 .SH "PURPOSE"
@@ -66,8 +65,8 @@ etc.  This
 feedback directly teaches students how to optimize their code to take better
 advantage of hardware features.
 
-The programming process is also realistic, including an assembler (asepc,
-based on plasm, the portable assembler) with an optional preprocessor (app)
+The programming process is also realistic, including an assembler (plasm,
+the portable assembler) with an optional preprocessor (app)
 that handles macros and includes, and an object code linker.  The system
 includes support for relocatable code.
 
@@ -79,7 +78,7 @@ knowledge, and gradually learn more advanced features over time.
 
 .B EPC
 runs machine code for the EPC architecture, produced by the
-.B asepc
+.B plasm
 assembler.
 
 The EPC architecture in a nutshell, is a 3-operand, memory-to-memory
@@ -99,11 +98,11 @@ To use
 1. Edit the assembly source code, file.epc
 
 2. Assembly the code using
-.B asepc:
+.B plasm:
 
 .nf
 .na
-    asepc program.epc
+    plasm program.epc
 .ad
 .fi
 
@@ -122,7 +121,7 @@ development environment which supports the use of
 with syntax colorization and build-and-run from within the IDE.
 
 .SH "SEE ALSO"
-asepc, papp, ape
+plasm, papp, ape
 
 .SH BUGS
 Please report bugs to the author and send patches in unified diff format.
