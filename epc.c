@@ -60,7 +60,7 @@ int     main(int argc,char *argv[])
 }
 
 
-inline void mem_read_stats(uint32_t address, uint32_t align_mask)
+static inline void mem_read_stats(uint32_t address, uint32_t align_mask)
 
 {
     ++Stats.memory_reads;
@@ -90,7 +90,7 @@ inline void mem_read_stats(uint32_t address, uint32_t align_mask)
  *  architecture.
  */
 
-inline uint32_t read_mem_long(uint32_t address)
+static inline uint32_t read_mem_long(uint32_t address)
 
 {
     mem_read_stats(address, 0x3);
@@ -101,7 +101,7 @@ inline uint32_t read_mem_long(uint32_t address)
 }
 
 
-inline uint16_t read_mem_short(uint32_t address)
+static inline uint16_t read_mem_short(uint32_t address)
 
 {
     mem_read_stats(address, 0x3);
@@ -110,7 +110,7 @@ inline uint16_t read_mem_short(uint32_t address)
 }
 
 
-inline uint8_t  read_mem_byte(uint32_t address)
+static inline uint8_t  read_mem_byte(uint32_t address)
 
 {
     mem_read_stats(address, 0x0);
@@ -118,7 +118,7 @@ inline uint8_t  read_mem_byte(uint32_t address)
 }
 
 
-inline void mem_write_stats(uint32_t address, uint32_t align_mask)
+static inline void mem_write_stats(uint32_t address, uint32_t align_mask)
 
 {
     //printf("Writing %lu\n", address);
@@ -153,7 +153,7 @@ void    write_mem_short(uint32_t address, uint16_t val)
 }
 
 
-inline void write_mem_byte(uint32_t address, uint8_t val)
+static inline void write_mem_byte(uint32_t address, uint8_t val)
 
 {
     mem_write_stats(address, 0x0);
@@ -162,7 +162,7 @@ inline void write_mem_byte(uint32_t address, uint8_t val)
 }
 
 
-inline float    fetch_float(uint32_t address)
+static inline float    fetch_float(uint32_t address)
 
 {
     uint32_t    num;
@@ -180,7 +180,7 @@ void    store_float(uint32_t address, float num)
 }
 
 
-inline uint8_t fetch_byte_operand(void)
+static inline uint8_t fetch_byte_operand(void)
 
 {
     static uint8_t  mode_byte;
@@ -233,7 +233,7 @@ inline uint8_t fetch_byte_operand(void)
 }
 
 
-inline uint16_t fetch_short_operand(void)
+static inline uint16_t fetch_short_operand(void)
 
 {
     static uint8_t  mode_byte;
@@ -284,7 +284,7 @@ inline uint16_t fetch_short_operand(void)
 }
 
 
-inline uint32_t get_effective_address(void)
+static inline uint32_t get_effective_address(void)
 
 {
     static uint8_t  mode_byte;
@@ -330,7 +330,7 @@ inline uint32_t get_effective_address(void)
 }
 
 
-inline uint32_t fetch_long_operand(void)
+static inline uint32_t fetch_long_operand(void)
 
 {
     static uint8_t  mode_byte;
@@ -380,7 +380,7 @@ inline uint32_t fetch_long_operand(void)
 }
 
 
-inline float fetch_float_operand(void)
+static inline float fetch_float_operand(void)
 
 {
     static uint8_t  mode_byte;
@@ -430,7 +430,7 @@ inline float fetch_float_operand(void)
 }
 
 
-inline void store_byte_operand(uint8_t operand)
+static inline void store_byte_operand(uint8_t operand)
 
 {
     static uint8_t  mode_byte;
@@ -486,7 +486,7 @@ inline void store_byte_operand(uint8_t operand)
 }
 
 
-inline void store_short_operand(uint16_t operand)
+static inline void store_short_operand(uint16_t operand)
 
 {
     static uint8_t  mode_byte;
@@ -543,7 +543,7 @@ inline void store_short_operand(uint16_t operand)
 }
 
 
-inline void store_long_operand(uint32_t operand)
+static inline void store_long_operand(uint32_t operand)
 
 {
     static uint8_t  mode_byte;
@@ -601,7 +601,7 @@ inline void store_long_operand(uint32_t operand)
 }
 
 
-inline void store_float_operand(float operand)
+static inline void store_float_operand(float operand)
 
 {
     static uint8_t  mode_byte;
@@ -659,7 +659,7 @@ inline void store_float_operand(float operand)
 }
 
 
-inline void jl(void)
+static inline void jl(void)
 
 {
     static uint32_t address;
@@ -675,7 +675,7 @@ inline void jl(void)
 }
 
 
-inline void jeq(void)
+static inline void jeq(void)
 
 {
     static uint32_t address;
@@ -687,7 +687,7 @@ inline void jeq(void)
 }
 
 
-inline void jne(void)
+static inline void jne(void)
 
 {
     static uint32_t address;
@@ -699,7 +699,7 @@ inline void jne(void)
 }
 
 
-inline void jlt(void)
+static inline void jlt(void)
 
 {
     static uint32_t address;
@@ -711,7 +711,7 @@ inline void jlt(void)
 }
 
 
-inline void jle(void)
+static inline void jle(void)
 
 {
     static uint32_t address;
@@ -723,7 +723,7 @@ inline void jle(void)
 }
 
 
-inline void jltu(void)
+static inline void jltu(void)
 
 {
     static uint32_t address;
@@ -735,7 +735,7 @@ inline void jltu(void)
 }
 
 
-inline void jleu(void)
+static inline void jleu(void)
 
 {
     static uint32_t address;
@@ -747,7 +747,7 @@ inline void jleu(void)
 }
 
 
-inline void jgt(void)
+static inline void jgt(void)
 
 {
     static uint32_t address;
@@ -759,7 +759,7 @@ inline void jgt(void)
 }
 
 
-inline void jge(void)
+static inline void jge(void)
 
 {
     static uint32_t address;
@@ -771,7 +771,7 @@ inline void jge(void)
 }
 
 
-inline void jgtu(void)
+static inline void jgtu(void)
 
 {
     static uint32_t address;
@@ -783,7 +783,7 @@ inline void jgtu(void)
 }
 
 
-inline void jgeu(void)
+static inline void jgeu(void)
 
 {
     static uint32_t address;
@@ -795,21 +795,7 @@ inline void jgeu(void)
 }
 
 
-inline void joc(void)
-
-{
-    jgeu();
-}
-
-
-inline void jnc(void)
-
-{
-    jltu();
-}
-
-
-inline void jov(void)
+static inline void jov(void)
 
 {
     static uint32_t address;
@@ -821,7 +807,7 @@ inline void jov(void)
 }
 
 
-inline void jnv(void)
+static inline void jnv(void)
 
 {
     static uint32_t address;
@@ -833,70 +819,70 @@ inline void jnv(void)
 }
 
 
-inline void j(void)
+static inline void j(void)
 
 {
     PC = get_effective_address();
 }
 
 
-inline void movb(void)
+static inline void movb(void)
 
 {
     store_byte_operand(fetch_byte_operand());
 }
 
 
-inline void movs(void)
+static inline void movs(void)
 
 {
     store_short_operand(fetch_short_operand());
 }
 
 
-inline void movl(void)
+static inline void movl(void)
 
 {
     store_long_operand(fetch_long_operand());
 }
 
 
-inline void movq(void)
+static inline void movq(void)
 
 {
     fprintf(stderr, "movq not yet implemented.\n");
 }
 
 
-inline void     movfl(void)
+static inline void     movfl(void)
 
 {
     store_long_operand((long)fetch_float_operand());
 }
 
 
-inline void     movlf(void)
+static inline void     movlf(void)
 
 {
     store_float_operand((float)fetch_long_operand());
 }
 
 
-inline void     movfd(void)
+static inline void     movfd(void)
 
 {
     fprintf(stderr, "movdf not yet implemented.\n");
 }
 
 
-inline void     movdf(void)
+static inline void     movdf(void)
 
 {
     fprintf(stderr, "movdf not yet implemented.\n");
 }
 
 
-inline void cmpb(void)
+static inline void cmpb(void)
 
 {
     static int8_t   diff;
@@ -914,7 +900,7 @@ inline void cmpb(void)
 }
 
 
-inline void     cmps(void)
+static inline void     cmps(void)
 
 {
     static int16_t   diff;
@@ -932,7 +918,7 @@ inline void     cmps(void)
 }
 
 
-inline void     cmpl(void)
+static inline void     cmpl(void)
 
 {
     static int32_t   diff;
@@ -950,14 +936,14 @@ inline void     cmpl(void)
 }
 
 
-inline void     cmpq(void)
+static inline void     cmpq(void)
 
 {
     fprintf(stderr, "cmpq not yet implemented.\n");
 }
 
 
-inline void     cmpf(void)
+static inline void     cmpf(void)
 
 {
     static float    diff, operand1, operand2;
@@ -974,126 +960,126 @@ inline void     cmpf(void)
 }
 
 
-inline void     cmpd(void)
+static inline void     cmpd(void)
 
 {
     fprintf(stderr, "cmpd not yet implemented.\n");
 }
 
 
-inline void     notb(void)
+static inline void     notb(void)
 
 {
     store_byte_operand(~fetch_byte_operand());
 }
 
 
-inline void     nots(void)
+static inline void     nots(void)
 
 {
     store_short_operand(~fetch_short_operand());
 }
 
 
-inline void     notl(void)
+static inline void     notl(void)
 
 {
     store_long_operand(~fetch_long_operand());
 }
 
 
-inline void     notq(void)
+static inline void     notq(void)
 
 {
     fprintf(stderr, "notq not yet implemented.\n");
 }
 
 
-inline void     andb(void)
+static inline void     andb(void)
 
 {
     store_byte_operand(fetch_byte_operand() & fetch_byte_operand());
 }
 
 
-inline void     ands(void)
+static inline void     ands(void)
 
 {
     store_short_operand(fetch_short_operand() & fetch_short_operand());
 }
 
 
-inline void     andl(void)
+static inline void     andl(void)
 
 {
     store_long_operand(fetch_long_operand() & fetch_long_operand());
 }
 
 
-inline void     andq(void)
+static inline void     andq(void)
 
 {
     fprintf(stderr, "andq not yet implemented.\n");
 }
 
 
-inline void     orb(void)
+static inline void     orb(void)
 
 {
     store_byte_operand(fetch_byte_operand() | fetch_byte_operand());
 }
 
 
-inline void     ors(void)
+static inline void     ors(void)
 
 {
     store_short_operand(fetch_short_operand() & fetch_short_operand());
 }
 
 
-inline void     orl(void)
+static inline void     orl(void)
 
 {
     store_long_operand(fetch_long_operand() & fetch_long_operand());
 }
 
 
-inline void     orq(void)
+static inline void     orq(void)
 
 {
     fprintf(stderr, "orq not yet implemented.\n");
 }
 
 
-inline void     xorb(void)
+static inline void     xorb(void)
 
 {
     store_byte_operand(fetch_byte_operand() ^ fetch_byte_operand());
 }
 
 
-inline void     xors(void)
+static inline void     xors(void)
 
 {
     store_short_operand(fetch_short_operand() ^ fetch_short_operand());
 }
 
 
-inline void     xorl(void)
+static inline void     xorl(void)
 
 {
     store_long_operand(fetch_long_operand() ^ fetch_long_operand());
 }
 
 
-inline void     xorq(void)
+static inline void     xorq(void)
 
 {
     fprintf(stderr, "xorq not yet implemented.\n");
 }
 
 
-inline void     sllb(void)
+static inline void     sllb(void)
 
 {
     /*
@@ -1108,7 +1094,7 @@ inline void     sllb(void)
 }
 
 
-inline void     slls(void)
+static inline void     slls(void)
 
 {
     /*
@@ -1123,7 +1109,7 @@ inline void     slls(void)
 }
 
 
-inline void     slll(void)
+static inline void     slll(void)
 
 {
     /*
@@ -1138,14 +1124,14 @@ inline void     slll(void)
 }
 
 
-inline void     sllq(void)
+static inline void     sllq(void)
 
 {
     fprintf(stderr, "sllq not yet implemented.\n");
 }
 
 
-inline void     srlb(void)
+static inline void     srlb(void)
 
 {
     /*
@@ -1160,7 +1146,7 @@ inline void     srlb(void)
 }
 
 
-inline void     srls(void)
+static inline void     srls(void)
 
 {
     /*
@@ -1175,7 +1161,7 @@ inline void     srls(void)
 }
 
 
-inline void     srll(void)
+static inline void     srll(void)
 
 {
     /*
@@ -1190,14 +1176,14 @@ inline void     srll(void)
 }
 
 
-inline void     srlq(void)
+static inline void     srlq(void)
 
 {
     fprintf(stderr, "srlq not yet implemented.\n");
 }
 
 
-inline void     srab(void)
+static inline void     srab(void)
 
 {
     /*
@@ -1212,7 +1198,7 @@ inline void     srab(void)
 }
 
 
-inline void     sras(void)
+static inline void     sras(void)
 
 {
     /*
@@ -1227,7 +1213,7 @@ inline void     sras(void)
 }
 
 
-inline void     sral(void)
+static inline void     sral(void)
 
 {
     /*
@@ -1242,70 +1228,70 @@ inline void     sral(void)
 }
 
 
-inline void     sraq(void)
+static inline void     sraq(void)
 
 {
     fprintf(stderr, "sraq not yet implemented.\n");
 }
 
 
-inline void     rolb(void)
+static inline void     rolb(void)
 
 {
     fprintf(stderr, "rolb not yet implemented.\n");
 }
 
 
-inline void     rols(void)
+static inline void     rols(void)
 
 {
     fprintf(stderr, "rols not yet implemented.\n");
 }
 
 
-inline void     roll(void)
+static inline void     roll(void)
 
 {
     fprintf(stderr, "roll not yet implemented.\n");
 }
 
 
-inline void     rolq(void)
+static inline void     rolq(void)
 
 {
     fprintf(stderr, "rolq not yet implemented.\n");
 }
 
 
-inline void     addb(void)
+static inline void     addb(void)
 
 {
     store_byte_operand(fetch_byte_operand() + fetch_byte_operand());
 }
 
 
-inline void     adds(void)
+static inline void     adds(void)
 
 {
     store_short_operand(fetch_short_operand() + fetch_short_operand());
 }
 
 
-inline void     addl(void)
+static inline void     addl(void)
 
 {
     store_long_operand(fetch_long_operand() + fetch_long_operand());
 }
 
 
-inline void     addq(void)
+static inline void     addq(void)
 
 {
     fprintf(stderr, "addq not yet implemented.\n");
 }
 
 
-inline void     addf(void)
+static inline void     addf(void)
 
 {
     static float    operand1, operand2;
@@ -1317,14 +1303,14 @@ inline void     addf(void)
 }
 
 
-inline void     addd(void)
+static inline void     addd(void)
 
 {
     fprintf(stderr, "addd not yet implemented.\n");
 }
 
 
-inline void subb(void)
+static inline void subb(void)
 
 {
     /*
@@ -1339,7 +1325,7 @@ inline void subb(void)
 }
 
 
-inline void subs(void)
+static inline void subs(void)
 
 {
     /*
@@ -1354,7 +1340,7 @@ inline void subs(void)
 }
 
 
-inline void subl(void)
+static inline void subl(void)
 
 {
     /*
@@ -1370,14 +1356,14 @@ inline void subl(void)
 }
 
 
-inline void     subq(void)
+static inline void     subq(void)
 
 {
     fprintf(stderr, "subq not yet implemented.\n");
 }
 
 
-inline void     subf(void)
+static inline void     subf(void)
 
 {
     /*
@@ -1393,56 +1379,56 @@ inline void     subf(void)
 }
 
 
-inline void     subd(void)
+static inline void     subd(void)
 
 {
     fprintf(stderr, "subd not yet implemented.\n");
 }
 
 
-inline void     mulb(void)
+static inline void     mulb(void)
 
 {
     store_byte_operand(fetch_byte_operand() * fetch_byte_operand());
 }
 
 
-inline void     muls(void)
+static inline void     muls(void)
 
 {
     store_short_operand(fetch_short_operand() * fetch_short_operand());
 }
 
 
-inline void     mull(void)
+static inline void     mull(void)
 
 {
     store_long_operand(fetch_long_operand() * fetch_long_operand());
 }
 
 
-inline void     mulq(void)
+static inline void     mulq(void)
 
 {
     fprintf(stderr, "mulq not yet implemented.\n");
 }
 
 
-inline void     mulf(void)
+static inline void     mulf(void)
 
 {
     store_float_operand(fetch_float_operand() * fetch_float_operand());
 }
 
 
-inline void     muld(void)
+static inline void     muld(void)
 
 {
     fprintf(stderr, "muld not yet implemented.\n");
 }
 
 
-inline void     divb(void)
+static inline void     divb(void)
 
 {
     /*
@@ -1461,7 +1447,7 @@ inline void     divb(void)
 }
 
 
-inline void     divs(void)
+static inline void     divs(void)
 
 {
     /*
@@ -1480,7 +1466,7 @@ inline void     divs(void)
 }
 
 
-inline void     divl(void)
+static inline void     divl(void)
 
 {
     /*
@@ -1499,14 +1485,14 @@ inline void     divl(void)
 }
 
 
-inline void     divq(void)
+static inline void     divq(void)
 
 {
     fprintf(stderr, "divq not yet implemented.\n");
 }
 
 
-inline void     divf(void)
+static inline void     divf(void)
 
 {
     /*
@@ -1525,14 +1511,14 @@ inline void     divf(void)
 }
 
 
-inline void     divd(void)
+static inline void     divd(void)
 
 {
     fprintf(stderr, "divd not yet implemented.\n");
 }
 
 
-inline void     remb(void)
+static inline void     remb(void)
 
 {
     /*
@@ -1551,7 +1537,7 @@ inline void     remb(void)
 }
 
 
-inline void     rems(void)
+static inline void     rems(void)
 
 {
     /*
@@ -1570,7 +1556,7 @@ inline void     rems(void)
 }
 
 
-inline void     reml(void)
+static inline void     reml(void)
 
 {
     /*
@@ -1589,14 +1575,14 @@ inline void     reml(void)
 }
 
 
-inline void     remq(void)
+static inline void     remq(void)
 
 {
     fprintf(stderr, "remq not yet implemented.\n");
 }
 
 
-inline void     inputb(void)
+static inline void     inputb(void)
 
 {
     /* First operand is I/O address */
@@ -1611,21 +1597,21 @@ inline void     inputb(void)
 }
 
 
-inline void     inputs(void)
+static inline void     inputs(void)
 
 {
     fprintf(stderr, "inputs not yet implemented.\n");
 }
 
 
-inline void     inputl(void)
+static inline void     inputl(void)
 
 {
     fprintf(stderr, "inputl not yet implemented.\n");
 }
 
 
-inline void outputb(void)
+static inline void outputb(void)
 
 {
     static uint8_t operand1;
@@ -1645,21 +1631,21 @@ inline void outputb(void)
 }
 
 
-inline void sleepl(void)
+static inline void sleepl(void)
 
 {
     usleep(fetch_long_operand());
 }
 
 
-inline void     outputs(void)
+static inline void     outputs(void)
 
 {
     fprintf(stderr, "outputs not yet implemented.\n");
 }
 
 
-inline void     outputl(void)
+static inline void     outputl(void)
 
 {
     fprintf(stderr, "outputl not yet implemented.\n");
@@ -2119,7 +2105,7 @@ void    print_stats(stats_t *stats)
     printf("%qu instructions executed.\n", stats->instruction_count);
     // Clock cycles
     /* Not finished */
-    printf("%qu clock cycles (ball park).\n", stats->clock_cycles);
+    printf("%qu clock cycles.\n", stats->clock_cycles);
     // Memory references
     printf("%qu memory reads, %qu unaligned.\n",
 	    stats->memory_reads, stats->unaligned_reads);

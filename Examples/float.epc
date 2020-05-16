@@ -6,6 +6,7 @@
 ############################################################################
 
 	.include "macros.epc"
+	.include "io.epc"
 
 NL:     .byte   10
 CR:     .byte   13
@@ -35,5 +36,3 @@ loop:
 	# Stop simulator
 	halt
 
-	.include "io.epc"
-	

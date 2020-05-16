@@ -1,7 +1,7 @@
 
 Goal
 ----
-Emulate a complete computer with the simplest possible architecture.
+Emulate a complete computer with the simple, easy-to-learn architecture.
 
 
 Endianness
@@ -244,10 +244,9 @@ Memory map
 
 I/O Addresses
 -------------
-00001000 - 00004fff Device registers        4096 registers
-    00000000    Keyboard
-    00000004    Video mode
-    00000008    Serial 1
+#define IO_KEYBOARD     0x00
+#define IO_VIDEO_MODE   0x01
+#define IO_SERIAL1      0x02        /* Serial terminal (kb and display) */
 
 00400000 - 007fffff Video RAM               4 megabytes 
     Mode 0
@@ -298,11 +297,13 @@ Cache
 1-level small cache to measure measure locality of reference
 
 
-VM
---
+Virtual Memory
+--------------
+Not yet implented
 
 
 I/O Device Plugins
 ------------------
 Plug-and-play I/O address, interrupt and DMA allocation
+Not yet implemented
 

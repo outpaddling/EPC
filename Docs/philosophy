@@ -2,7 +2,7 @@
 Do nothing behind the user's back
     Adding CR to NL
 
-Let students do anything that's relatively easy and will remind them
+Have students do anything that's relatively easy and will remind them
 how things really work.
     Define their own push and pop macros
     Null terminate their own strings
@@ -12,8 +12,10 @@ Provide a lot of feedback
 	Stack underflow
 	Illegal instruction
 	Illegal addressing mode
+    Cache performance
+    Instructions executed, clock cycles, memory accesses
 
 Not designed for speed
     Accurately simulate the instruction cycle, no cheats
-    Gathers much information about program execution
+    Gather much information about program execution
     

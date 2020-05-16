@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<book xml:id="EPC" xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>Educational Personal Computer</title>
+    
+    <chapter xml:id="goals">
+	<title>Goals</title>
+	
+	<section>
+	    <title>Philosophy</title>
+	    
+	    <para>
+	    Based on many years of experience teaching computer architecture
+	    and assembly language, EPC is designed with a few primary goals
+	    in mind:
+	    </para>
+	    
+	    <itemizedlist>
+		<listitem>
+		Maximize learning opportunities for students
+		</listitem>
+		
+		<listitem>
+		Minimize needless difficulty
+		</listitem>
+		
+		<listitem>
+		Similate the development process as well as the machine
+		</listitem>
+	    </itemizedlist>
+	    
+	    <para>
+	    Learning opportunities are maximized by providing a feature-rich
+	    simulator, providing extensive feedback on each program run, and 
+	    leaving as much as possible to students to do for themselves.
+	    The EPC simulator includes only
+	    essential macros for getting started with assembly language
+	    programming. such as basic terminal input and output.  All other
+	    high-level software functions are intentionally left for students
+	    to design themselves, so they can experience "bare-metal"
+	    programming to the fullest.
+	    </para>
+	    
+	    <para>
+	    Difficuly is minimized by creating an assembly language that
+	    is easy to learn and use and a simple, orthogonal machine code
+	    format.  Modern commercial CISC architectures are far too complex
+	    to use in an introductory course.  RISC architectures make the
+	    programming process too arduous and confusing.  EPC allows the
+	    development of short, self-documenting code, so efforts can
+	    be focused on learning the principals of machine language and
+	    computer architecture.
+	    </para>
+	    
+	    <para>
+	    The development environment requires use of a real assembler and
+	    macro preprocessor, so students become familiar with the process
+	    of generating machine code in the real world.
+	    </para>
+	    
+	    <para>
+	    More details about EPC features are discussed in the sections
+	    that follow.
+	    <xref linkend=""/>.
+	    </para>
+	</section>
+	
+	<section>
+	    <title>Audience</title>
+	    
+	    <para>
+	    EPC is a training tool for computer programmers and
+	    engineers.
+	    </para>
+	    
+	    <para>
+	    It is meant for use in classes teaching assembly language,
+	    computer architecture, compiler design, and similar topics.
+	    </para>
+	</section>
+	
+	<section>
+	    <title>Why a Simulator?</title>
+	    
+	    <para>
+	    Simulators have major advantages over real hardware as
+	    educational tools.
+	    </para>
+	    
+	    <itemizedlist>
+		<listitem>
+		Simulators allow the user to easily monitor the inner workings
+		of a computer in as much detail as desired.
+		</listitem>
+		
+		<listitem>
+		Hardware costs money.  It must be purchased, maintained,
+		upgraded and replaced.
+		</listitem>
+		
+		<listitem>
+		A simulator, like any properly-written software, can be
+		made portable, so that it can be used on virtually any
+		operating system and hardware.
+		</listitem>
+	    </itemizedlist>
+	</section>
+	
+	<section>
+	    <title>Why EPC?</title>
+	    
+	    <itemizedlist>
+		<listitem>
+		<para>
+		Modern commercial CPUs are designed primarily to be
+		fast and cheap.  Some of the most important
+		goals are performance/cost and performance/watt.  To
+		accomplish these goals, sacrifices are often made to
+		ease of use, leading to confusing instruction sets and
+		inconsistencies in the hardware design.  Hence, these
+		architectures are not at all programmer-friendly.
+		</para>
+		
+		<para>
+		This is necessarily not a bad thing in today's computer
+		industry, since the only people typically affected
+		by it are the handful of geniuses who write compilers.
+		</para>
+		
+		<para>
+		However, for teaching a course in assembly language and
+		computer architecture, a far more programmer-friendly
+		instruction set is highly desirable.  This will allow
+		students to learn a great deal more about computer
+		arhcitecture in general, since they won't lose time
+		struggling with an overly difficult language.
+		</para>
+		
+		<para>
+		The EPC architecture is much easier to learn and use
+		than most modern commercial architectures.  The instruction
+		set and machine code format are simple and orthogonal,
+		but complete.
+		</para>
+		
+		<para>
+		Students will not be overwhelmed with complexity and therefore
+		can be exposed to all major computer architecture concepts
+		such as memory hierarchy, addressing modes, etc. within
+		the confines of a typical college semester.
+		</para>
+		</listitem>
+		
+		<listitem>
+		Free and open source.
+		</listitem>
+		
+		<listitem>
+		The EPC simulator is written in ISO C and the assembler
+		is written in ISO C++.  Both are designed to be portable to
+		any POSIX-compatible platform.  This includes any Unix-like
+		system, including Mac OS X, and MS Windows running Cygwin
+		or any other POSIX compatibility system.
+		</listitem>
+		
+		<listitem>
+		EPC more accurately simulates the programming process of
+		real hardware.  Programs are written in any text editor,
+		then assembled to produce a machine-code "binary", which is
+		executed by the simulator.
+		</listitem>
+		
+		<listitem>
+		The machine code binaries are in the form of a human-readable
+		"list" file, showing the machine code and assembly
+		code side-by-side.
+		</listitem>
+		
+		<listitem>
+		EPC reports a great deal of information about programs, such
+		as the number of instructions executed, the number of clock
+		cycles used, unaligned memory accesses, memory used, etc.
+		This allows
+		programs to be easily rated for objective quality measures
+		such as speed and resource use.
+		</listitem>
+	    </itemizedlist>
+	    
+	</section>
+    </chapter>
+    
+    <chapter xml:id="architecture">
+	<title>The EPC Architecture</title>
+	
+	<section>
+	    <title>Consistency</title>
+	    
+	    <para>
+	    EPC machine code is 100% consistent.
+	    </para>
+	    
+	    <para>
+	    Unlike some simulators, the EPC architecture is little-endian
+	    regardless of the underlying architecture.  This means a
+	    small performance penalty when running on a big-endian
+	    computer, but the difference is not noticeable.
+	    </para>
+	</section>
+	
+	<section>
+	    <title>Data Types</title>
+	    
+	    <table xml:id="data-type-table" frame='all'>
+		<title>Data Types</title>
+		<tgroup cols='3' align='left' colsep='1' rowsep='1'>
+		    <thead>
+		    <row>
+			<entry>Type</entry>
+			<entry>Suffix used in instructions</entry>
+			<entry>Description</entry>
+		    </row>
+		    </thead>
+		    
+		    <tbody>
+		    <row>
+			<entry>byte</entry>
+			<entry>b</entry>
+			<entry>8-bit integer or raw bit data</entry>
+		    </row>
+		    <row>
+			<entry>short</entry>
+			<entry>s</entry>
+			<entry>16-bit integer or raw bit data</entry>
+		    </row>
+		    <row>
+			<entry>long</entry>
+			<entry>l</entry>
+			<entry>32-bit integer or raw bit data</entry>
+		    </row>
+		    <row>
+			<entry>quad</entry>
+			<entry>q</entry>
+			<entry>64-bit integer or raw bit data</entry>
+		    </row>
+		    <row>
+			<entry>float</entry>
+			<entry>f</entry>
+			<entry>32-bit IEEE floating point</entry>
+		    </row>
+		    <row>
+			<entry>double</entry>
+			<entry>d</entry>
+			<entry>64-bit IEEE floating point</entry>
+		    </row>
+		    <row>
+			<entry>address</entry>
+			<entry>a</entry>
+			<entry>32?-bit memory address</entry>
+		    </row>
+		    </tbody>
+		</tgroup>
+	    </table>
+	</section>
+	
+	<section>
+	    <title>Instruction Set</title>
+	    
+	    <section>
+		<title>Jump Instructions</title>
+
+		<section>
+		    <title>j</title>
+		    
+		    <para>
+		    j label
+		    </para>
+		    
+		    <table frame='all'>
+			<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+			    <thead>
+			    <row>
+				<entry>opcode</entry>
+				<entry>arguments</entry>
+			    </row>
+			    </thead>
+			    
+			    <tbody>
+			    <row>
+				<entry>00</entry>
+				<entry>aa</entry>
+			    </row>
+			    </tbody>
+			</tgroup>
+		    </table>
+		    
+		    <para>
+		    Jump unconditionally to address 'label'.
+		    </para>
+		</section>
+		<screen>
+j       label               00 aa     
+jl      label               01 aa
+ret                         0e
+
+jeq     label               02 aa   z = 1
+jne     label               03 aa   z = 0
+
+jlt     label               04 aa   n = 1
+jle     label               05 aa   n = 1 or z = 1
+jltu    label               --      c = 0 (jnc)
+jleu    label               06 aa   c = 0 or z = 1
+
+jgt     label               07 aa   n = 0 and z = 0
+jge     label               08 aa   n = 0 or z = 1
+jgtu    label               09 aa   c = 1 and z = 0
+jgeu    label               --      c = 1 (joc)
+
+joc     label               0a aa   c = 1
+jnc     label               0b aa   c = 0
+jov     label               0c aa   v = 1
+jnv     label               0d aa   v = 0
+		</screen>
+	    </section>
+	    
+	    <section>
+		<title>Move Instructions</title>
+	    </section>
+	    
+	    <section>
+		<title>Comparison Instructions</title>
+	    </section>
+	    
+	    <section>
+		<title>Bit/Logic Instructions</title>
+	    </section>
+	    
+	    <section>
+		<title>Arithmetic Instructions</title>
+	    </section>
+	    
+	    <section>
+		<title>Input/Output Instructions</title>
+	    </section>
+	</section>
+	
+	<section>
+	    <title>Addressing Modes</title>
+	</section>
+	
+	<section>
+	    <title>Registers</title>
+	</section>
+	
+	<section>
+	    <title>Busses</title>
+	</section>
+	
+	<section>
+	    <title>Memory Map</title>
+	</section>
+	
+	<section>
+	    <title>I/O Addresses</title>
+	</section>
+	
+	<section>
+	    <title>Exceptions</title>
+	</section>
+	
+	<section>
+	    <title>DMA</title>
+	</section>
+	
+	<section>
+	    <title>Disk</title>
+	</section>
+	
+	<section>
+	    <title>Display</title>
+	</section>
+	
+	<section>
+	    <title>Cache</title>
+	</section>
+	
+	<section>
+	    <title>Virtual Memory</title>
+	</section>
+	
+	<section>
+	    <title>Device Plugins</title>
+	</section>
+    </chapter>
+</book>
+
