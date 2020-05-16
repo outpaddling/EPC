@@ -66,7 +66,7 @@ MANPREFIX   ?= ${PREFIX}
 # Where to find local libraries and headers.  For MacPorts, override
 # with "make LOCALBASE=/opt/local"
 LOCALBASE   ?= ${PREFIX}
-DATADIR     ?= ${PREFIX}/share/epc
+DATADIR     ?= ${PREFIX}/share/EPC
 
 ############################################################################
 # Build flags
