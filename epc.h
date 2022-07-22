@@ -4,7 +4,7 @@
  *  between the assembler and emulator.
  */
 
-#include <plasm-epc-bits.h>
+#include <plasm/epc-bits.h>
 
 /*
  *  1-byte I/O Addresses

@@ -1,6 +1,4 @@
-epc.o: epc.c /usr/local/include/twintk.h /usr/local/include/twintk_term.h \
-  /usr/local/include/twintk_image.h /usr/local/include/twintk_mouse.h \
-  epc.h /usr/local/include/plasm-epc-bits.h protos.h
+epc.o: epc.c epc.h protos.h
 	${CC} -c ${CFLAGS} epc.c
 
 float_endian.o: float_endian.c

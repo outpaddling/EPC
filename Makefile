@@ -60,8 +60,9 @@ OBJS    = epc.o
 
 # Install in /usr/local, unless defined by the parent Makefile, the
 # environment, or a command line option such as PREFIX=/opt/local.
-PREFIX      ?= /usr/local
+PREFIX      ?= ../local
 MANPREFIX   ?= ${PREFIX}
+MANDIR      ?= ${MANPREFIX}/man
 
 # Where to find local libraries and headers.  For MacPorts, override
 # with "make LOCALBASE=/opt/local"
@@ -84,7 +85,7 @@ LD          = ${CC}
 
 CPP         ?= cpp
 
-INCLUDES    += -I${LOCALBASE}/include
+INCLUDES    += -isystem ${PREFIX}/include -isystem ${LOCALBASE}/include
 CFLAGS      += ${INCLUDES}
 LFLAGS      += -L${LOCALBASE}/lib -ltwintk -lxtend
 
@@ -148,27 +149,19 @@ realclean: clean
 # Install all target files (binaries, libraries, docs, etc.)
 
 install: all
-	${MKDIR} -p ${PREFIX}/bin ${PREFIX}/man/man1
-	${INSTALL} -s -m 0555 ${BIN} ${PREFIX}/bin
-	${INSTALL} -m 0444 Docs/epc.man ${MANPREFIX}/man/man1/${MAN}
-	${MKDIR} -p ${DATADIR}/include
-	${INSTALL} -m 0444 Examples/macros.epc ${DATADIR}/include
-	${INSTALL} -m 0444 Examples/io.epc ${DATADIR}/include
-	${MKDIR} -p ${DATADIR}/Examples
-	${INSTALL} -m 0444 Examples/bench.epc ${DATADIR}/Examples
-	${INSTALL} -m 0444 Examples/echo.epc ${DATADIR}/Examples
-	${INSTALL} -m 0444 Examples/float.epc ${DATADIR}/Examples
-	${INSTALL} -m 0444 Examples/loop.epc ${DATADIR}/Examples
-	${INSTALL} -m 0444 Examples/hello.epc ${DATADIR}/Examples
-	${INSTALL} -m 0444 Examples/torture.epc ${DATADIR}/Examples
-
-############################################################################
-# Remove all installed files
-
-uninstall:
-	${RM} ${PREFIX}/bin/${BIN}
-	${RM} ${MANPREFIX}/man/man1/${MAN}
-	${RM} -rf ${DATADIR}
+	${MKDIR} -p ${DESTDIR}${PREFIX}/bin ${DESTDIR}${PREFIX}/man/man1
+	${INSTALL} -s -m 0555 ${BIN} ${DESTDIR}${PREFIX}/bin
+	${INSTALL} -m 0444 Docs/epc.man ${DESTDIR}${MANPREFIX}/man/man1/${MAN}
+	${MKDIR} -p ${DESTDIR}${DATADIR}/include
+	${INSTALL} -m 0444 Examples/macros.epc ${DESTDIR}${DATADIR}/include
+	${INSTALL} -m 0444 Examples/io.epc ${DESTDIR}${DATADIR}/include
+	${MKDIR} -p ${DESTDIR}${DATADIR}/Examples
+	${INSTALL} -m 0444 Examples/bench.epc ${DESTDIR}${DATADIR}/Examples
+	${INSTALL} -m 0444 Examples/echo.epc ${DESTDIR}${DATADIR}/Examples
+	${INSTALL} -m 0444 Examples/float.epc ${DESTDIR}${DATADIR}/Examples
+	${INSTALL} -m 0444 Examples/loop.epc ${DESTDIR}${DATADIR}/Examples
+	${INSTALL} -m 0444 Examples/hello.epc ${DESTDIR}${DATADIR}/Examples
+	${INSTALL} -m 0444 Examples/torture.epc ${DESTDIR}${DATADIR}/Examples
 
 proto:
 	cproto ${INCLUDES} *.c > temp.h && mv -f temp.h protos.h
