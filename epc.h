@@ -6,6 +6,8 @@
 
 #include <plasm/epc-bits.h>
 
+typedef enum { EPC, RISC_V } isa_t;
+
 /*
  *  1-byte I/O Addresses
  */
