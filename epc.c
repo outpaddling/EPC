@@ -36,7 +36,7 @@ int     main(int argc,char *argv[])
     {
 	case    2:
 	    if ( (entry_address = load_prog(argv[1])) != -1 )
-		return run_prog(entry_address, EPC);
+		return run_prog(entry_address, ECISC);
 	    break;
 	default:
 	    fprintf(stderr,"Usage: %s program\n",argv[0]);
@@ -73,8 +73,8 @@ int     run_prog(uint32_t entry_address, isa_t isa)
     
     switch(isa)
     {
-	case    EPC:
-	    status = run_epc_cisc(entry_address);
+	case    ECISC:
+	    status = ecisc_run(entry_address);
 	    break;
 	case    RISC_V:
 	    fprintf(stderr, "epc: RISC_V support is not implemented yet.\n");
@@ -97,21 +97,21 @@ void mem_read_stats(uint32_t address, uint32_t align_mask)
 {
     ++Stats.memory_reads;
     // 1 mem cycle for aligned read, 2 if crossing 32-bit word boundary
-    int cache_index = CACHE_INDEX(address);
+    int cache_index = ECISC_CACHE_INDEX(address);
     
-    if ( Cache[cache_index] == CACHED_ADDRESS(address) )
+    if ( Cache[cache_index] == ECISC_CACHED_ADDRESS(address) )
     {
-	Stats.clock_cycles += CACHE_CLOCKS;
+	Stats.clock_cycles += ECISC_CACHE_CLOCKS;
 	++Stats.cache_hits;
     }
     else
     {
-	Stats.clock_cycles += MEM_CLOCKS;
+	Stats.clock_cycles += ECISC_MEM_CLOCKS;
 	Cache[cache_index] = address;
     }
     if ( (address & align_mask) != 0 )
     {
-	Stats.clock_cycles += MEM_CLOCKS;
+	Stats.clock_cycles += ECISC_MEM_CLOCKS;
 	++Stats.unaligned_reads;
     }
 }
@@ -156,10 +156,10 @@ void mem_write_stats(uint32_t address, uint32_t align_mask)
     //printf("Writing %lu\n", address);
     ++Stats.memory_writes;
     // 1 mem cycle for aligned read, 2 if crossing 32-bit word boundary
-    Stats.clock_cycles += MEM_CLOCKS;
+    Stats.clock_cycles += ECISC_MEM_CLOCKS;
     if ( address & align_mask )
     {
-	Stats.clock_cycles += MEM_CLOCKS;
+	Stats.clock_cycles += ECISC_MEM_CLOCKS;
 	++Stats.unaligned_writes;
     }
 }
@@ -255,12 +255,12 @@ uint32_t    load_prog(char *filename)
     uint32_t    address,
 		entry_address = -1;
     FILE        *fp;
-    char        string[STRING_MAX+1], name[STRING_MAX+1], *end;
+    char        string[EPC_STRING_MAX+1], name[EPC_STRING_MAX+1], *end;
     size_t      len;
     uint32_t    val;
     
-    Mem = malloc(MEM_SPACE);
-    Cache = malloc(CACHE_SIZE * 1); /* One entry per 32-bit word */
+    Mem = malloc(ECISC_MEM_SPACE);
+    Cache = malloc(ECISC_CACHE_SIZE * 1); /* One entry per 32-bit word */
     
     fp = fopen(filename, "r");
     if ( fp == NULL )
@@ -272,7 +272,7 @@ uint32_t    load_prog(char *filename)
 
     /* Read header */
     /*
-    read_string(fp, string, STRING_MAX);
+    read_string(fp, string, EPC_STRING_MAX);
     if ( strcasecmp(string, "!EPC00") != 0 )
     {
 	fputs("This does not appear to be an EPC executable.\n", stderr);
@@ -282,11 +282,11 @@ uint32_t    load_prog(char *filename)
     */
     
     /* Read text segment */
-    offset = USER_BASE;
+    offset = ECISC_USER_BASE;
     do
     {
 	/* Read and discard offset */
-	read_string(fp, string, STRING_MAX);
+	read_string(fp, string, EPC_STRING_MAX);
 	
 	/* End of program marked by End tag */
 	if ( strcasecmp(string, "end") == 0 )
@@ -295,7 +295,7 @@ uint32_t    load_prog(char *filename)
 	/* Read machine code */
 	do
 	{
-	    len = read_string(fp, string, STRING_MAX);
+	    len = read_string(fp, string, EPC_STRING_MAX);
 	    
 	    /* Read and discard comment */
 	    if ( *string == '#' )
@@ -314,7 +314,7 @@ uint32_t    load_prog(char *filename)
 		    val = strtoull(p, &end, HEX_BASE);
 		else
 		{
-		    val = USER_BASE + strtoull(++p, &end, HEX_BASE);
+		    val = ECISC_USER_BASE + strtoull(++p, &end, HEX_BASE);
 		    --len;
 		}
 		if ( end != p + len )
@@ -346,7 +346,7 @@ uint32_t    load_prog(char *filename)
     }   while ( len > 0 );
     
     /* Read symbol table */
-    while ( fgets(string, STRING_MAX, fp) != NULL )
+    while ( fgets(string, EPC_STRING_MAX, fp) != NULL )
     {
 	if ( sscanf(string, "%X %s", &address, name) == 2 )
 	{
@@ -384,7 +384,7 @@ void    trap(int code)
 {
     switch(code)
     {
-	case    TRAP_DIV_BY_ZERO:
+	case    ECISC_TRAP_DIV_BY_ZERO:
 	    fprintf(stderr, "Trap: Divide by zero.\n");
 	    break;
 	default:

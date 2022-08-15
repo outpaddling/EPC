@@ -1,5 +1,5 @@
-/* epc-cisc.c */
-int run_epc_cisc(uint32_t entry_address);
+/* ecisc.c */
+int ecisc_run(uint32_t entry_address);
 uint8_t fetch_byte_operand(void);
 uint16_t fetch_short_operand(void);
 uint32_t get_effective_address(void);

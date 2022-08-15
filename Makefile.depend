@@ -1,7 +1,7 @@
-epc-cisc.o: epc-cisc.c epc.h protos.h
-	${CC} -c ${CFLAGS} epc-cisc.c
+ecisc.o: ecisc.c epc.h ecisc.h protos.h
+	${CC} -c ${CFLAGS} ecisc.c
 
-epc.o: epc.c epc.h protos.h
+epc.o: epc.c epc.h ecisc.h protos.h
 	${CC} -c ${CFLAGS} epc.c
 
 float_endian.o: float_endian.c

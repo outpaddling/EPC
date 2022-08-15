@@ -12,7 +12,7 @@
 
 uint8_t     *Mem;
 uint32_t    *Cache;
-uint32_t    Regs[CPU_REGS];
+uint32_t    Regs[ECISC_CPU_REGS];
 
 stats_t     Stats = STAT_INIT;
 
@@ -55,408 +55,408 @@ struct
  *  2022-08-14  Jason Bacon Begin
  ***************************************************************************/
 
-int     run_epc_cisc(uint32_t entry_address)
+int     ecisc_run(uint32_t entry_address)
 
 {
     uint32_t    opcode;
     
     /* Initialize Program_counter */
-    // PC = USER_BASE;
-    PC = USER_BASE + entry_address;
-    DPRINTF("Starting program at 0x%08X\r\n", PC);
+    // ECISC_PC = USER_BASE;
+    ECISC_PC = ECISC_USER_BASE + entry_address;
+    DPRINTF("Starting program at 0x%08X\r\n", ECISC_PC);
 
     /* Initialize stack */
-    SP = USER_END;
+    ECISC_SP = ECISC_USER_END;
 
     do
     {
-	//DPRINTF("address: %08x ", PC);
-	opcode = read_mem_byte(PC++);   // Mem[PC++];
+	//DPRINTF("address: %08x ", ECISC_PC);
+	opcode = read_mem_byte(ECISC_PC++);   // Mem[ECISC_PC++];
 	//DPRINTF("Opcode: %02x\r\n", opcode);
 	
 	switch( opcode )
 	{
-	    case    OP_JL:
+	    case    ECISC_OP_JL:
 		jl();
 		break;
 
-	    case    OP_BEQ:
+	    case    ECISC_OP_BEQ:
 		jeq();
 		break;
 
-	    case    OP_BNE:
+	    case    ECISC_OP_BNE:
 		jne();
 		break;
 
-	    case    OP_BLT:
+	    case    ECISC_OP_BLT:
 		jlt();
 		break;
 
-	    case    OP_BLE:
+	    case    ECISC_OP_BLE:
 		jle();
 		break;
 
-	    case    OP_BLTU:    /* Same as jnc */
+	    case    ECISC_OP_BLTU:    /* Same as jnc */
 		jltu();
 		break;
 
-	    case    OP_BLEU:
+	    case    ECISC_OP_BLEU:
 		jleu();
 		break;
 
-	    case    OP_BGT:
+	    case    ECISC_OP_BGT:
 		jgt();
 		break;
 
-	    case    OP_BGE:
+	    case    ECISC_OP_BGE:
 		jge();
 		break;
 
-	    case    OP_BGTU:
+	    case    ECISC_OP_BGTU:
 		jgtu();
 		break;
 
-	    case    OP_BGEU:    /* Same as joc */
+	    case    ECISC_OP_BGEU:    /* Same as joc */
 		jgeu();
 		break;
 
-	    case    OP_BOV:
+	    case    ECISC_OP_BOV:
 		jov();
 		break;
 
-	    case    OP_BNV:
+	    case    ECISC_OP_BNV:
 		jnv();
 		break;
 
-	    case    OP_J:
+	    case    ECISC_OP_J:
 		j();
 		break;
 
-	    case    OP_MOVB:
+	    case    ECISC_OP_MOVB:
 		movb();
 		break;
 
-	    case    OP_MOVS:
+	    case    ECISC_OP_MOVS:
 		movs();
 		break;
 
-	    case    OP_MOVL:    /* Also movf */
+	    case    ECISC_OP_MOVL:    /* Also movf */
 		movl();
 		break;
 
-	    case    OP_MOVQ:    /* Also movd */
+	    case    ECISC_OP_MOVQ:    /* Also movd */
 		movq();
 		break;
 
-	    case    OP_MOVFL:
+	    case    ECISC_OP_MOVFL:
 		movfl();
 		break;
 
-	    case    OP_MOVLF:
+	    case    ECISC_OP_MOVLF:
 		movlf();
 		break;
 
-	    case    OP_MOVFD:
+	    case    ECISC_OP_MOVFD:
 		movfd();
 		break;
 
-	    case    OP_MOVDF:
+	    case    ECISC_OP_MOVDF:
 		movdf();
 		break;
 
-	    case    OP_CMPB:
+	    case    ECISC_OP_CMPB:
 		cmpb();
 		break;
 
-	    case    OP_CMPS:
+	    case    ECISC_OP_CMPS:
 		cmps();
 		break;
 
-	    case    OP_CMPL:
+	    case    ECISC_OP_CMPL:
 		cmpl();
 		break;
 
-	    case    OP_CMPQ:
+	    case    ECISC_OP_CMPQ:
 		cmpq();
 		break;
 
-	    case    OP_CMPF:
+	    case    ECISC_OP_CMPF:
 		cmpf();
 		break;
 
-	    case    OP_CMPD:
+	    case    ECISC_OP_CMPD:
 		cmpd();
 		break;
 
-	    case    OP_NOTB:
+	    case    ECISC_OP_NOTB:
 		notb();
 		break;
 
-	    case    OP_NOTS:
+	    case    ECISC_OP_NOTS:
 		nots();
 		break;
 
-	    case    OP_NOTL:
+	    case    ECISC_OP_NOTL:
 		notl();
 		break;
 
-	    case    OP_NOTQ:
+	    case    ECISC_OP_NOTQ:
 		notq();
 		break;
 
-	    case    OP_ANDB:
+	    case    ECISC_OP_ANDB:
 		andb();
 		break;
 
-	    case    OP_ANDS:
+	    case    ECISC_OP_ANDS:
 		ands();
 		break;
 
-	    case    OP_ANDL:
+	    case    ECISC_OP_ANDL:
 		andl();
 		break;
 
-	    case    OP_ANDQ:
+	    case    ECISC_OP_ANDQ:
 		andq();
 		break;
 
-	    case    OP_ORB:
+	    case    ECISC_OP_ORB:
 		orb();
 		break;
 
-	    case    OP_ORS:
+	    case    ECISC_OP_ORS:
 		ors();
 		break;
 
-	    case    OP_ORL:
+	    case    ECISC_OP_ORL:
 		orl();
 		break;
 
-	    case    OP_ORQ:
+	    case    ECISC_OP_ORQ:
 		orq();
 		break;
 
-	    case    OP_XORB:
+	    case    ECISC_OP_XORB:
 		xorb();
 		break;
 
-	    case    OP_XORS:
+	    case    ECISC_OP_XORS:
 		xors();
 		break;
 
-	    case    OP_XORL:
+	    case    ECISC_OP_XORL:
 		xorl();
 		break;
 
-	    case    OP_XORQ:
+	    case    ECISC_OP_XORQ:
 		xorq();
 		break;
 
-	    case    OP_SLLB:
+	    case    ECISC_OP_SLLB:
 		sllb();
 		break;
 
-	    case    OP_SLLS:
+	    case    ECISC_OP_SLLS:
 		slls();
 		break;
 
-	    case    OP_SLLL:
+	    case    ECISC_OP_SLLL:
 		slll();
 		break;
 
-	    case    OP_SLLQ:
+	    case    ECISC_OP_SLLQ:
 		sllq();
 		break;
 
-	    case    OP_SRLB:
+	    case    ECISC_OP_SRLB:
 		srlb();
 		break;
 
-	    case    OP_SRLS:
+	    case    ECISC_OP_SRLS:
 		srls();
 		break;
 
-	    case    OP_SRLL:
+	    case    ECISC_OP_SRLL:
 		srll();
 		break;
 
-	    case    OP_SRLQ:
+	    case    ECISC_OP_SRLQ:
 		srlq();
 		break;
 
-	    case    OP_SRAB:
+	    case    ECISC_OP_SRAB:
 		srab();
 		break;
 
-	    case    OP_SRAS:
+	    case    ECISC_OP_SRAS:
 		sras();
 		break;
 
-	    case    OP_SRAL:
+	    case    ECISC_OP_SRAL:
 		sral();
 		break;
 
-	    case    OP_SRAQ:
+	    case    ECISC_OP_SRAQ:
 		sraq();
 		break;
 
-	    case    OP_ROLB:
+	    case    ECISC_OP_ROLB:
 		rolb();
 		break;
 
-	    case    OP_ROLS:
+	    case    ECISC_OP_ROLS:
 		rols();
 		break;
 
-	    case    OP_ROLL:
+	    case    ECISC_OP_ROLL:
 		roll();
 		break;
 
-	    case    OP_ROLQ:
+	    case    ECISC_OP_ROLQ:
 		rolq();
 		break;
 
-	    case    OP_ADDB:
+	    case    ECISC_OP_ADDB:
 		addb();
 		break;
 
-	    case    OP_ADDS:
+	    case    ECISC_OP_ADDS:
 		adds();
 		break;
 
-	    case    OP_ADDL:
+	    case    ECISC_OP_ADDL:
 		addl();
 		break;
 
-	    case    OP_ADDQ:
+	    case    ECISC_OP_ADDQ:
 		addq();
 		break;
 
-	    case    OP_ADDF:
+	    case    ECISC_OP_ADDF:
 		addf();
 		break;
 
-	    case    OP_ADDD:
+	    case    ECISC_OP_ADDD:
 		addd();
 		break;
 
-	    case    OP_SUBB:
+	    case    ECISC_OP_SUBB:
 		subb();
 		break;
 
-	    case    OP_SUBS:
+	    case    ECISC_OP_SUBS:
 		subs();
 		break;
 
-	    case    OP_SUBL:
+	    case    ECISC_OP_SUBL:
 		subl();
 		break;
 
-	    case    OP_SUBQ:
+	    case    ECISC_OP_SUBQ:
 		subq();
 		break;
 
-	    case    OP_SUBF:
+	    case    ECISC_OP_SUBF:
 		subf();
 		break;
 
-	    case    OP_SUBD:
+	    case    ECISC_OP_SUBD:
 		subd();
 		break;
 
-	    case    OP_MULB:
+	    case    ECISC_OP_MULB:
 		mulb();
 		break;
 
-	    case    OP_MULS:
+	    case    ECISC_OP_MULS:
 		muls();
 		break;
 
-	    case    OP_MULL:
+	    case    ECISC_OP_MULL:
 		mull();
 		break;
 
-	    case    OP_MULQ:
+	    case    ECISC_OP_MULQ:
 		mulq();
 		break;
 
-	    case    OP_MULF:
+	    case    ECISC_OP_MULF:
 		mulf();
 		break;
 
-	    case    OP_MULD:
+	    case    ECISC_OP_MULD:
 		muld();
 		break;
 
-	    case    OP_DIVB:
+	    case    ECISC_OP_DIVB:
 		divb();
 		break;
 
-	    case    OP_DIVS:
+	    case    ECISC_OP_DIVS:
 		divs();
 		break;
 
-	    case    OP_DIVL:
+	    case    ECISC_OP_DIVL:
 		divl();
 		break;
 
-	    case    OP_DIVQ:
+	    case    ECISC_OP_DIVQ:
 		divq();
 		break;
 
-	    case    OP_DIVF:
+	    case    ECISC_OP_DIVF:
 		divf();
 		break;
 
-	    case    OP_DIVD:
+	    case    ECISC_OP_DIVD:
 		divd();
 		break;
 
-	    case    OP_REMB:
+	    case    ECISC_OP_REMB:
 		remb();
 		break;
 
-	    case    OP_REMS:
+	    case    ECISC_OP_REMS:
 		rems();
 		break;
 
-	    case    OP_REML:
+	    case    ECISC_OP_REML:
 		reml();
 		break;
 
-	    case    OP_REMQ:
+	    case    ECISC_OP_REMQ:
 		remq();
 		break;
 
-	    case    OP_INPUTB:
+	    case    ECISC_OP_INPUTB:
 		inputb();
 		break;
 
-	    case    OP_INPUTS:
+	    case    ECISC_OP_INPUTS:
 		inputs();
 		break;
 
-	    case    OP_INPUTL:
+	    case    ECISC_OP_INPUTL:
 		inputl();
 		break;
 
-	    case    OP_OUTPUTB:
+	    case    ECISC_OP_OUTPUTB:
 		outputb();
 		break;
 
-	    case    OP_OUTPUTS:
+	    case    ECISC_OP_OUTPUTS:
 		outputs();
 		break;
 
-	    case    OP_OUTPUTL:
+	    case    ECISC_OP_OUTPUTL:
 		outputl();
 		break;
 
-	    case    OP_SLEEPL:
+	    case    ECISC_OP_SLEEPL:
 		sleepl();
 		break;
 		
-	    case    OP_HALT:
+	    case    ECISC_OP_HALT:
 		break;
 
 	    default:
@@ -472,7 +472,7 @@ int     run_epc_cisc(uint32_t entry_address)
 	 */
 	++Stats.clock_cycles;
 	
-    }   while ( opcode != OP_HALT ); //opcode != OP_HALT );
+    }   while ( opcode != ECISC_OP_HALT ); //opcode != ECISC_OP_HALT );
     
     return EX_OK;
 }
@@ -484,41 +484,41 @@ uint8_t fetch_byte_operand(void)
     static uint8_t  mode_byte;
     static uint32_t address, offset, pointer;
     
-    mode_byte = read_mem_byte(PC++);    // Mem[PC++];
-    switch(MODE_BITS(mode_byte))
+    mode_byte = read_mem_byte(ECISC_PC++);    // Mem[PC++];
+    switch(ECISC_MODE_BITS(mode_byte))
     {
-	case    MODE_REG_DIRECT:
-	    return Regs[REG_NUM(mode_byte)] & MASK_LOW_BYTE;
+	case    ECISC_MODE_REG_DIRECT:
+	    return Regs[ECISC_REG_NUM(mode_byte)] & ECISC_MASK_LOW_BYTE;
 	    
-	case    MODE_REG_INDIRECT:
-	    address = Regs[REG_NUM(mode_byte)];
+	case    ECISC_MODE_REG_INDIRECT:
+	    address = Regs[ECISC_REG_NUM(mode_byte)];
 	    return read_mem_byte(address);  // Mem[address];
 	    
-	case    MODE_AUTO_INCREMENT:
-	    address = Regs[REG_NUM(mode_byte)]++;
+	case    ECISC_MODE_AUTO_INCREMENT:
+	    address = Regs[ECISC_REG_NUM(mode_byte)]++;
 	    return read_mem_byte(address);  // Mem[address];
 	    
-	case    MODE_AUTO_DECREMENT:
-	    address = --Regs[REG_NUM(mode_byte)];
+	case    ECISC_MODE_AUTO_DECREMENT:
+	    address = --Regs[ECISC_REG_NUM(mode_byte)];
 	    return read_mem_byte(address);  // Mem[address];
 	    
-	case    MODE_OFFSET:
-	    offset = read_mem_long(PC);
-	    PC += ADDRESS_BYTES;
+	case    ECISC_MODE_OFFSET:
+	    offset = read_mem_long(ECISC_PC);
+	    ECISC_PC += ADDRESS_BYTES;
 	    /* DPRINTF("offset = %08x  r%d = %08x\n",
-		offset, REG_NUM(mode_byte), Regs[REG_NUM(mode_byte)]); */
-	    return read_mem_byte(offset + Regs[REG_NUM(mode_byte)]);
-	    // Mem[offset + Regs[REG_NUM(mode_byte)]];
+		offset, ECISC_REG_NUM(mode_byte), Regs[ECISC_REG_NUM(mode_byte)]); */
+	    return read_mem_byte(offset + Regs[ECISC_REG_NUM(mode_byte)]);
+	    // Mem[offset + Regs[ECISC_REG_NUM(mode_byte)]];
 	
-	case    MODE_MEM_DIRECT:
-	    address = read_mem_long(PC);
-	    PC += ADDRESS_BYTES;
+	case    ECISC_MODE_MEM_DIRECT:
+	    address = read_mem_long(ECISC_PC);
+	    ECISC_PC += ADDRESS_BYTES;
 	    return read_mem_byte(address);  // Mem[address];
 	
-	case    MODE_MEM_INDIRECT:
-	    pointer = read_mem_long(PC);
+	case    ECISC_MODE_MEM_INDIRECT:
+	    pointer = read_mem_long(ECISC_PC);
 	    //DPRINTF("pointer = %08x\n", pointer);
-	    PC += ADDRESS_BYTES;
+	    ECISC_PC += ADDRESS_BYTES;
 	    address = read_mem_long(pointer);
 	    //DPRINTF("address = %08x\n", address);
 	    return read_mem_byte(address);  // Mem[address];
@@ -537,40 +537,40 @@ uint16_t fetch_short_operand(void)
     static uint8_t  mode_byte;
     static uint32_t address, offset, pointer;
     
-    mode_byte = read_mem_byte(PC++);    // Mem[PC++];
-    switch(MODE_BITS(mode_byte))
+    mode_byte = read_mem_byte(ECISC_PC++);    // Mem[ECISC_PC++];
+    switch(ECISC_MODE_BITS(mode_byte))
     {
-	case    MODE_REG_DIRECT:
-	    return Regs[REG_NUM(mode_byte)] & MASK_LOW_SHORT;
+	case    ECISC_MODE_REG_DIRECT:
+	    return Regs[ECISC_REG_NUM(mode_byte)] & ECISC_MASK_LOW_SHORT;
 	    
-	case    MODE_REG_INDIRECT:
-	    address = Regs[REG_NUM(mode_byte)];
+	case    ECISC_MODE_REG_INDIRECT:
+	    address = Regs[ECISC_REG_NUM(mode_byte)];
 	    return read_mem_short(address);
 	    
-	case    MODE_AUTO_INCREMENT:
-	    address = Regs[REG_NUM(mode_byte)];
-	    Regs[REG_NUM(mode_byte)] += SHORT_BYTES;
-	    //DPRINTF("fetch_short: PC = %08x\n", PC);
+	case    ECISC_MODE_AUTO_INCREMENT:
+	    address = Regs[ECISC_REG_NUM(mode_byte)];
+	    Regs[ECISC_REG_NUM(mode_byte)] += SHORT_BYTES;
+	    //DPRINTF("fetch_short: ECISC_PC = %08x\n", ECISC_PC);
 	    return read_mem_short(address);
 	    
-	case    MODE_AUTO_DECREMENT:
-	    Regs[REG_NUM(mode_byte)] -= SHORT_BYTES;
-	    address = Regs[REG_NUM(mode_byte)];
+	case    ECISC_MODE_AUTO_DECREMENT:
+	    Regs[ECISC_REG_NUM(mode_byte)] -= SHORT_BYTES;
+	    address = Regs[ECISC_REG_NUM(mode_byte)];
 	    return read_mem_short(address);
 	    
-	case    MODE_OFFSET:
-	    offset = read_mem_long(PC);
-	    PC += ADDRESS_BYTES;
-	    return read_mem_short(offset + Regs[REG_NUM(mode_byte)]);
+	case    ECISC_MODE_OFFSET:
+	    offset = read_mem_long(ECISC_PC);
+	    ECISC_PC += ADDRESS_BYTES;
+	    return read_mem_short(offset + Regs[ECISC_REG_NUM(mode_byte)]);
 	
-	case    MODE_MEM_DIRECT:
-	    address = read_mem_long(PC);
-	    PC += ADDRESS_BYTES;
+	case    ECISC_MODE_MEM_DIRECT:
+	    address = read_mem_long(ECISC_PC);
+	    ECISC_PC += ADDRESS_BYTES;
 	    return read_mem_short(address);
 	
-	case    MODE_MEM_INDIRECT:
-	    pointer = read_mem_long(PC);
-	    PC += ADDRESS_BYTES;
+	case    ECISC_MODE_MEM_INDIRECT:
+	    pointer = read_mem_long(ECISC_PC);
+	    ECISC_PC += ADDRESS_BYTES;
 	    address = read_mem_long(pointer);
 	    return read_mem_short(address);
 
@@ -588,35 +588,35 @@ uint32_t get_effective_address(void)
     static uint8_t  mode_byte;
     static uint32_t address, offset, pointer;
     
-    mode_byte = read_mem_byte(PC++);    // Mem[PC++];
-    switch(MODE_BITS(mode_byte))
+    mode_byte = read_mem_byte(ECISC_PC++);    // Mem[ECISC_PC++];
+    switch(ECISC_MODE_BITS(mode_byte))
     {
-	case    MODE_REG_INDIRECT:
-	    return Regs[REG_NUM(mode_byte)];
+	case    ECISC_MODE_REG_INDIRECT:
+	    return Regs[ECISC_REG_NUM(mode_byte)];
 	    
-	case    MODE_AUTO_INCREMENT:
-	    address = Regs[REG_NUM(mode_byte)];
-	    Regs[REG_NUM(mode_byte)] += LONG_BYTES;
+	case    ECISC_MODE_AUTO_INCREMENT:
+	    address = Regs[ECISC_REG_NUM(mode_byte)];
+	    Regs[ECISC_REG_NUM(mode_byte)] += LONG_BYTES;
 	    return address;
 	    
-	case    MODE_AUTO_DECREMENT:
-	    Regs[REG_NUM(mode_byte)] -= LONG_BYTES;
-	    address = Regs[REG_NUM(mode_byte)];
+	case    ECISC_MODE_AUTO_DECREMENT:
+	    Regs[ECISC_REG_NUM(mode_byte)] -= LONG_BYTES;
+	    address = Regs[ECISC_REG_NUM(mode_byte)];
 	    return address;
 	    
-	case    MODE_OFFSET:
-	    offset = read_mem_long(PC);
-	    PC += ADDRESS_BYTES;
-	    return offset + Regs[REG_NUM(mode_byte)];
+	case    ECISC_MODE_OFFSET:
+	    offset = read_mem_long(ECISC_PC);
+	    ECISC_PC += ADDRESS_BYTES;
+	    return offset + Regs[ECISC_REG_NUM(mode_byte)];
 	
-	case    MODE_MEM_DIRECT:
-	    address = read_mem_long(PC);
-	    PC += ADDRESS_BYTES;
+	case    ECISC_MODE_MEM_DIRECT:
+	    address = read_mem_long(ECISC_PC);
+	    ECISC_PC += ADDRESS_BYTES;
 	    return address;
 	
-	case    MODE_MEM_INDIRECT:
-	    pointer = read_mem_long(PC);
-	    PC += ADDRESS_BYTES;
+	case    ECISC_MODE_MEM_INDIRECT:
+	    pointer = read_mem_long(ECISC_PC);
+	    ECISC_PC += ADDRESS_BYTES;
 	    address = read_mem_long(pointer);
 	    return address;
 
@@ -634,39 +634,39 @@ uint32_t fetch_long_operand(void)
     static uint8_t  mode_byte;
     static uint32_t address, offset, pointer;
     
-    mode_byte = read_mem_byte(PC++);    // Mem[PC++];
-    switch(MODE_BITS(mode_byte))
+    mode_byte = read_mem_byte(ECISC_PC++);    // Mem[ECISC_PC++];
+    switch(ECISC_MODE_BITS(mode_byte))
     {
-	case    MODE_REG_DIRECT:
-	    return Regs[REG_NUM(mode_byte)];
+	case    ECISC_MODE_REG_DIRECT:
+	    return Regs[ECISC_REG_NUM(mode_byte)];
 	    
-	case    MODE_REG_INDIRECT:
-	    address = Regs[REG_NUM(mode_byte)];
+	case    ECISC_MODE_REG_INDIRECT:
+	    address = Regs[ECISC_REG_NUM(mode_byte)];
 	    return read_mem_long(address);
 	    
-	case    MODE_AUTO_INCREMENT:
-	    address = Regs[REG_NUM(mode_byte)];
-	    Regs[REG_NUM(mode_byte)] += LONG_BYTES;
+	case    ECISC_MODE_AUTO_INCREMENT:
+	    address = Regs[ECISC_REG_NUM(mode_byte)];
+	    Regs[ECISC_REG_NUM(mode_byte)] += LONG_BYTES;
 	    return read_mem_long(address);
 	    
-	case    MODE_AUTO_DECREMENT:
-	    Regs[REG_NUM(mode_byte)] -= LONG_BYTES;
-	    address = Regs[REG_NUM(mode_byte)];
+	case    ECISC_MODE_AUTO_DECREMENT:
+	    Regs[ECISC_REG_NUM(mode_byte)] -= LONG_BYTES;
+	    address = Regs[ECISC_REG_NUM(mode_byte)];
 	    return read_mem_long(address);
 	    
-	case    MODE_OFFSET:
-	    offset = read_mem_long(PC);
-	    PC += ADDRESS_BYTES;
-	    return read_mem_long(offset + Regs[REG_NUM(mode_byte)]);
+	case    ECISC_MODE_OFFSET:
+	    offset = read_mem_long(ECISC_PC);
+	    ECISC_PC += ADDRESS_BYTES;
+	    return read_mem_long(offset + Regs[ECISC_REG_NUM(mode_byte)]);
 	
-	case    MODE_MEM_DIRECT:
-	    address = read_mem_long(PC);
-	    PC += ADDRESS_BYTES;
+	case    ECISC_MODE_MEM_DIRECT:
+	    address = read_mem_long(ECISC_PC);
+	    ECISC_PC += ADDRESS_BYTES;
 	    return read_mem_long(address);
 	
-	case    MODE_MEM_INDIRECT:
-	    pointer = read_mem_long(PC);
-	    PC += ADDRESS_BYTES;
+	case    ECISC_MODE_MEM_INDIRECT:
+	    pointer = read_mem_long(ECISC_PC);
+	    ECISC_PC += ADDRESS_BYTES;
 	    address = read_mem_long(pointer);
 	    return read_mem_long(address);
 
@@ -684,39 +684,39 @@ float fetch_float_operand(void)
     static uint8_t  mode_byte;
     static uint32_t address, offset, pointer;
     
-    mode_byte = read_mem_byte(PC++);    // Mem[PC++];
-    switch(MODE_BITS(mode_byte))
+    mode_byte = read_mem_byte(ECISC_PC++);    // Mem[ECISC_PC++];
+    switch(ECISC_MODE_BITS(mode_byte))
     {
-	case    MODE_REG_DIRECT:
-	    return REG_FLOAT(REG_NUM(mode_byte));
+	case    ECISC_MODE_REG_DIRECT:
+	    return ECISC_REG_FLOAT(ECISC_REG_NUM(mode_byte));
 	    
-	case    MODE_REG_INDIRECT:
-	    address = Regs[REG_NUM(mode_byte)];
+	case    ECISC_MODE_REG_INDIRECT:
+	    address = Regs[ECISC_REG_NUM(mode_byte)];
 	    return fetch_float(address);
 	    
-	case    MODE_AUTO_INCREMENT:
-	    address = Regs[REG_NUM(mode_byte)];
-	    Regs[REG_NUM(mode_byte)] += FLOAT_BYTES;
+	case    ECISC_MODE_AUTO_INCREMENT:
+	    address = Regs[ECISC_REG_NUM(mode_byte)];
+	    Regs[ECISC_REG_NUM(mode_byte)] += FLOAT_BYTES;
 	    return fetch_float(address);
 	    
-	case    MODE_AUTO_DECREMENT:
-	    Regs[REG_NUM(mode_byte)] -= FLOAT_BYTES;
-	    address = Regs[REG_NUM(mode_byte)];
+	case    ECISC_MODE_AUTO_DECREMENT:
+	    Regs[ECISC_REG_NUM(mode_byte)] -= FLOAT_BYTES;
+	    address = Regs[ECISC_REG_NUM(mode_byte)];
 	    return fetch_float(address);
 	    
-	case    MODE_OFFSET:
-	    offset = read_mem_long(PC);
-	    PC += ADDRESS_BYTES;
-	    return fetch_float(offset + Regs[REG_NUM(mode_byte)]);
+	case    ECISC_MODE_OFFSET:
+	    offset = read_mem_long(ECISC_PC);
+	    ECISC_PC += ADDRESS_BYTES;
+	    return fetch_float(offset + Regs[ECISC_REG_NUM(mode_byte)]);
 	
-	case    MODE_MEM_DIRECT:
-	    address = read_mem_long(PC);
-	    PC += ADDRESS_BYTES;
+	case    ECISC_MODE_MEM_DIRECT:
+	    address = read_mem_long(ECISC_PC);
+	    ECISC_PC += ADDRESS_BYTES;
 	    return fetch_float(address);
 	
-	case    MODE_MEM_INDIRECT:
-	    pointer = read_mem_long(PC);
-	    PC += ADDRESS_BYTES;
+	case    ECISC_MODE_MEM_INDIRECT:
+	    pointer = read_mem_long(ECISC_PC);
+	    ECISC_PC += ADDRESS_BYTES;
 	    address = read_mem_long(pointer);
 	    return fetch_float(address);
 
@@ -734,45 +734,45 @@ void store_byte_operand(uint8_t operand)
     static uint8_t  mode_byte;
     static uint32_t address, offset, pointer;
     
-    mode_byte = read_mem_byte(PC++);    // Mem[PC++];
-    switch(MODE_BITS(mode_byte))
+    mode_byte = read_mem_byte(ECISC_PC++);    // Mem[ECISC_PC++];
+    switch(ECISC_MODE_BITS(mode_byte))
     {
-	case    MODE_REG_DIRECT:
-	    Regs[REG_NUM(mode_byte)] = 
-		(Regs[REG_NUM(mode_byte)] & 0xffffff00) | operand;
+	case    ECISC_MODE_REG_DIRECT:
+	    Regs[ECISC_REG_NUM(mode_byte)] = 
+		(Regs[ECISC_REG_NUM(mode_byte)] & 0xffffff00) | operand;
 	    return;
 
-	case    MODE_REG_INDIRECT:
-	    address = Regs[REG_NUM(mode_byte)];
+	case    ECISC_MODE_REG_INDIRECT:
+	    address = Regs[ECISC_REG_NUM(mode_byte)];
 	    write_mem_byte(address, operand);   // Mem[address] = operand;
 	    return;
 	    
-	case    MODE_AUTO_INCREMENT:
-	    address = Regs[REG_NUM(mode_byte)]++;
+	case    ECISC_MODE_AUTO_INCREMENT:
+	    address = Regs[ECISC_REG_NUM(mode_byte)]++;
 	    write_mem_byte(address, operand);   // Mem[address] = operand;
 	    return;
 	    
-	case    MODE_AUTO_DECREMENT:
-	    address = --Regs[REG_NUM(mode_byte)];
+	case    ECISC_MODE_AUTO_DECREMENT:
+	    address = --Regs[ECISC_REG_NUM(mode_byte)];
 	    write_mem_byte(address, operand);   // Mem[address] = operand;
 	    return;
 	    
-	case    MODE_OFFSET:
-	    offset = read_mem_long(PC);
-	    PC += ADDRESS_BYTES;
-	    write_mem_byte(offset + Regs[REG_NUM(mode_byte)], operand);
-	    // Mem[offset + Regs[REG_NUM(mode_byte)]] = operand;
+	case    ECISC_MODE_OFFSET:
+	    offset = read_mem_long(ECISC_PC);
+	    ECISC_PC += ADDRESS_BYTES;
+	    write_mem_byte(offset + Regs[ECISC_REG_NUM(mode_byte)], operand);
+	    // Mem[offset + Regs[ECISC_REG_NUM(mode_byte)]] = operand;
 	    return;
 	
-	case    MODE_MEM_DIRECT:
-	    address = read_mem_long(PC);
-	    PC += ADDRESS_BYTES;
+	case    ECISC_MODE_MEM_DIRECT:
+	    address = read_mem_long(ECISC_PC);
+	    ECISC_PC += ADDRESS_BYTES;
 	    write_mem_byte(address, operand);   // Mem[address] = operand;
 	    return;
 	
-	case    MODE_MEM_INDIRECT:
-	    pointer = read_mem_long(PC);
-	    PC += ADDRESS_BYTES;
+	case    ECISC_MODE_MEM_INDIRECT:
+	    pointer = read_mem_long(ECISC_PC);
+	    ECISC_PC += ADDRESS_BYTES;
 	    address = read_mem_long(pointer);
 	    write_mem_byte(address, operand);   // Mem[address] = operand;
 	    return;
@@ -790,46 +790,46 @@ void store_short_operand(uint16_t operand)
     static uint8_t  mode_byte;
     static uint32_t address, pointer;
     
-    mode_byte = read_mem_byte(PC++);    // Mem[PC++];
-    switch(MODE_BITS(mode_byte))
+    mode_byte = read_mem_byte(ECISC_PC++);    // Mem[ECISC_PC++];
+    switch(ECISC_MODE_BITS(mode_byte))
     {
-	case    MODE_REG_DIRECT:
-	    Regs[REG_NUM(mode_byte)] = 
-		(Regs[REG_NUM(mode_byte)] & 0xffff0000) | operand;
+	case    ECISC_MODE_REG_DIRECT:
+	    Regs[ECISC_REG_NUM(mode_byte)] = 
+		(Regs[ECISC_REG_NUM(mode_byte)] & 0xffff0000) | operand;
 	    return;
 
-	case    MODE_REG_INDIRECT:
-	    address = Regs[REG_NUM(mode_byte)];
+	case    ECISC_MODE_REG_INDIRECT:
+	    address = Regs[ECISC_REG_NUM(mode_byte)];
 	    write_mem_short(address, operand);
 	    return;
 	    
-	case    MODE_AUTO_INCREMENT:
-	    address = Regs[REG_NUM(mode_byte)];
-	    Regs[REG_NUM(mode_byte)] += SHORT_BYTES;
+	case    ECISC_MODE_AUTO_INCREMENT:
+	    address = Regs[ECISC_REG_NUM(mode_byte)];
+	    Regs[ECISC_REG_NUM(mode_byte)] += SHORT_BYTES;
 	    write_mem_short(address, operand);
 	    return;
 	    
-	case    MODE_AUTO_DECREMENT:
-	    Regs[REG_NUM(mode_byte)] -= SHORT_BYTES;
-	    address = Regs[REG_NUM(mode_byte)];
+	case    ECISC_MODE_AUTO_DECREMENT:
+	    Regs[ECISC_REG_NUM(mode_byte)] -= SHORT_BYTES;
+	    address = Regs[ECISC_REG_NUM(mode_byte)];
 	    write_mem_short(address, operand);
 	    return;
 	    
-	case    MODE_OFFSET:
-	    //offset = read_mem_long(PC);
-	    PC += ADDRESS_BYTES;
+	case    ECISC_MODE_OFFSET:
+	    //offset = read_mem_long(ECISC_PC);
+	    ECISC_PC += ADDRESS_BYTES;
 	    write_mem_short(address, operand);
 	    return;
 	
-	case    MODE_MEM_DIRECT:
-	    address = read_mem_long(PC);
-	    PC += ADDRESS_BYTES;
+	case    ECISC_MODE_MEM_DIRECT:
+	    address = read_mem_long(ECISC_PC);
+	    ECISC_PC += ADDRESS_BYTES;
 	    write_mem_short(address, operand);
 	    return;
 	
-	case    MODE_MEM_INDIRECT:
-	    pointer = read_mem_long(PC);
-	    PC += ADDRESS_BYTES;
+	case    ECISC_MODE_MEM_INDIRECT:
+	    pointer = read_mem_long(ECISC_PC);
+	    ECISC_PC += ADDRESS_BYTES;
 	    address = read_mem_long(pointer);
 	    write_mem_short(address, operand);
 	    return;
@@ -848,46 +848,46 @@ void store_long_operand(uint32_t operand)
     static uint32_t address, pointer;
     
     //DPRINTF("Storing %08x\n", operand);
-    mode_byte = read_mem_byte(PC++);    // Mem[PC++];
-    switch(MODE_BITS(mode_byte))
+    mode_byte = read_mem_byte(ECISC_PC++);    // Mem[ECISC_PC++];
+    switch(ECISC_MODE_BITS(mode_byte))
     {
-	case    MODE_REG_DIRECT:
-	    Regs[REG_NUM(mode_byte)] = operand;
+	case    ECISC_MODE_REG_DIRECT:
+	    Regs[ECISC_REG_NUM(mode_byte)] = operand;
 	    return;
 
-	case    MODE_REG_INDIRECT:
-	    address = Regs[REG_NUM(mode_byte)];
+	case    ECISC_MODE_REG_INDIRECT:
+	    address = Regs[ECISC_REG_NUM(mode_byte)];
 	    write_mem_long(address, operand);
 	    return;
 	    
-	case    MODE_AUTO_INCREMENT:
-	    address = Regs[REG_NUM(mode_byte)];
-	    Regs[REG_NUM(mode_byte)] += LONG_BYTES;
+	case    ECISC_MODE_AUTO_INCREMENT:
+	    address = Regs[ECISC_REG_NUM(mode_byte)];
+	    Regs[ECISC_REG_NUM(mode_byte)] += LONG_BYTES;
 	    write_mem_long(address, operand);
 	    return;
 	    
-	case    MODE_AUTO_DECREMENT:
-	    Regs[REG_NUM(mode_byte)] -= LONG_BYTES;
-	    address = Regs[REG_NUM(mode_byte)];
+	case    ECISC_MODE_AUTO_DECREMENT:
+	    Regs[ECISC_REG_NUM(mode_byte)] -= LONG_BYTES;
+	    address = Regs[ECISC_REG_NUM(mode_byte)];
 	    write_mem_long(address, operand);
 	    return;
 	    
-	case    MODE_OFFSET:
-	    //offset = read_mem_long(PC);
-	    PC += ADDRESS_BYTES;
+	case    ECISC_MODE_OFFSET:
+	    //offset = read_mem_long(ECISC_PC);
+	    ECISC_PC += ADDRESS_BYTES;
 	    write_mem_long(address, operand);
 	    return;
 	
-	case    MODE_MEM_DIRECT:
-	    address = read_mem_long(PC);
-	    PC += ADDRESS_BYTES;
+	case    ECISC_MODE_MEM_DIRECT:
+	    address = read_mem_long(ECISC_PC);
+	    ECISC_PC += ADDRESS_BYTES;
 	    write_mem_long(address, operand);
 	    //DPRINTF("Storing %08x at %08x\n", operand, address);
 	    return;
 	
-	case    MODE_MEM_INDIRECT:
-	    pointer = read_mem_long(PC);
-	    PC += ADDRESS_BYTES;
+	case    ECISC_MODE_MEM_INDIRECT:
+	    pointer = read_mem_long(ECISC_PC);
+	    ECISC_PC += ADDRESS_BYTES;
 	    address = read_mem_long(pointer);
 	    write_mem_long(address, operand);
 	    return;
@@ -906,46 +906,46 @@ void store_float_operand(float operand)
     static uint32_t address, pointer;
     
     //DPRINTF("Storing %f\n", operand);
-    mode_byte = read_mem_byte(PC++);    // Mem[PC++];
-    switch(MODE_BITS(mode_byte))
+    mode_byte = read_mem_byte(ECISC_PC++);    // Mem[ECISC_PC++];
+    switch(ECISC_MODE_BITS(mode_byte))
     {
-	case    MODE_REG_DIRECT:
-	    REG_FLOAT(REG_NUM(mode_byte)) = operand;
+	case    ECISC_MODE_REG_DIRECT:
+	    ECISC_REG_FLOAT(ECISC_REG_NUM(mode_byte)) = operand;
 	    return;
 
-	case    MODE_REG_INDIRECT:
-	    address = Regs[REG_NUM(mode_byte)];
+	case    ECISC_MODE_REG_INDIRECT:
+	    address = Regs[ECISC_REG_NUM(mode_byte)];
 	    store_float(address, operand);
 	    return;
 	    
-	case    MODE_AUTO_INCREMENT:
-	    address = Regs[REG_NUM(mode_byte)];
-	    Regs[REG_NUM(mode_byte)] += FLOAT_BYTES;
+	case    ECISC_MODE_AUTO_INCREMENT:
+	    address = Regs[ECISC_REG_NUM(mode_byte)];
+	    Regs[ECISC_REG_NUM(mode_byte)] += FLOAT_BYTES;
 	    store_float(address, operand);
 	    return;
 	    
-	case    MODE_AUTO_DECREMENT:
-	    Regs[REG_NUM(mode_byte)] -= FLOAT_BYTES;
-	    address = Regs[REG_NUM(mode_byte)];
+	case    ECISC_MODE_AUTO_DECREMENT:
+	    Regs[ECISC_REG_NUM(mode_byte)] -= FLOAT_BYTES;
+	    address = Regs[ECISC_REG_NUM(mode_byte)];
 	    store_float(address, operand);
 	    return;
 	    
-	case    MODE_OFFSET:
-	    //offset = read_mem_long(PC);
-	    PC += ADDRESS_BYTES;
+	case    ECISC_MODE_OFFSET:
+	    //offset = read_mem_long(ECISC_PC);
+	    ECISC_PC += ADDRESS_BYTES;
 	    store_float(address, operand);
 	    return;
 	
-	case    MODE_MEM_DIRECT:
-	    address = read_mem_long(PC);
-	    PC += ADDRESS_BYTES;
+	case    ECISC_MODE_MEM_DIRECT:
+	    address = read_mem_long(ECISC_PC);
+	    ECISC_PC += ADDRESS_BYTES;
 	    store_float(address, operand);
 	    //DPRINTF("Storing %08x at %08x\n", operand, address);
 	    return;
 	
-	case    MODE_MEM_INDIRECT:
-	    pointer = read_mem_long(PC);
-	    PC += ADDRESS_BYTES;
+	case    ECISC_MODE_MEM_INDIRECT:
+	    pointer = read_mem_long(ECISC_PC);
+	    ECISC_PC += ADDRESS_BYTES;
 	    address = read_mem_long(pointer);
 	    store_float(address, operand);
 	    return;
@@ -964,12 +964,12 @@ void jl(void)
     
     address = get_effective_address();
     
-    /* Push PC */
-    SP -= ADDRESS_BYTES;
-    write_mem_long(SP, PC);
+    /* Push ECISC_PC */
+    ECISC_SP -= ADDRESS_BYTES;
+    write_mem_long(ECISC_SP, ECISC_PC);
     
     /* Branch */
-    PC = address;
+    ECISC_PC = address;
 }
 
 
@@ -981,7 +981,7 @@ void jeq(void)
     address = get_effective_address();
     
     if ( Status.z == 1 )
-	PC = address;
+	ECISC_PC = address;
 }
 
 
@@ -993,7 +993,7 @@ void jne(void)
     address = get_effective_address();
     
     if ( Status.z == 0 )
-	PC = address;
+	ECISC_PC = address;
 }
 
 
@@ -1005,7 +1005,7 @@ void jlt(void)
     address = get_effective_address();
     
     if ( Status.n == 1 )
-	PC = address;
+	ECISC_PC = address;
 }
 
 
@@ -1017,7 +1017,7 @@ void jle(void)
     address = get_effective_address();
     
     if ( (Status.n == 1) || (Status.z == 1) )
-	PC = address;
+	ECISC_PC = address;
 }
 
 
@@ -1029,7 +1029,7 @@ void jltu(void)
     address = get_effective_address();
     
     if ( Status.c == 0 )
-	PC = address;
+	ECISC_PC = address;
 }
 
 
@@ -1041,7 +1041,7 @@ void jleu(void)
     address = get_effective_address();
     
     if ( (Status.c == 0) || (Status.z == 1) )
-	PC = address;
+	ECISC_PC = address;
 }
 
 
@@ -1053,7 +1053,7 @@ void jgt(void)
     address = get_effective_address();
     
     if ( (Status.n == 0) && (Status.z == 0) )
-	PC = address;
+	ECISC_PC = address;
 }
 
 
@@ -1065,7 +1065,7 @@ void jge(void)
     address = get_effective_address();
     
     if ( (Status.n == 0) || (Status.z == 1) )
-	PC = address;
+	ECISC_PC = address;
 }
 
 
@@ -1077,7 +1077,7 @@ void jgtu(void)
     address = get_effective_address();
     
     if ( (Status.c == 1) && (Status.z == 0) )
-	PC = address;
+	ECISC_PC = address;
 }
 
 
@@ -1089,7 +1089,7 @@ void jgeu(void)
     address = get_effective_address();
     
     if ( Status.c == 1 )
-	PC = address;
+	ECISC_PC = address;
 }
 
 
@@ -1101,7 +1101,7 @@ void jov(void)
     address = get_effective_address();
     
     if ( Status.v == 1 )
-	PC = address;
+	ECISC_PC = address;
 }
 
 
@@ -1113,14 +1113,14 @@ void jnv(void)
     address = get_effective_address();
     
     if ( Status.v == 0 )
-	PC = address;
+	ECISC_PC = address;
 }
 
 
 void j(void)
 
 {
-    PC = get_effective_address();
+    ECISC_PC = get_effective_address();
 }
 
 
@@ -1738,7 +1738,7 @@ void     divb(void)
     int8_t divisor = fetch_byte_operand();
     
     if ( divisor == 0 )
-	trap(TRAP_DIV_BY_ZERO);
+	trap(ECISC_TRAP_DIV_BY_ZERO);
     
     /* Second operand is shift count */
     store_byte_operand(dividend / divisor);
@@ -1757,7 +1757,7 @@ void     divs(void)
     int16_t divisor = fetch_short_operand();
     
     if ( divisor == 0 )
-	trap(TRAP_DIV_BY_ZERO);
+	trap(ECISC_TRAP_DIV_BY_ZERO);
     
     /* Second operand is shift count */
     store_short_operand(dividend / divisor);
@@ -1776,7 +1776,7 @@ void     divl(void)
     int32_t divisor = fetch_long_operand();
     
     if ( divisor == 0 )
-	trap(TRAP_DIV_BY_ZERO);
+	trap(ECISC_TRAP_DIV_BY_ZERO);
     
     /* Second operand is shift count */
     store_long_operand(dividend / divisor);
@@ -1802,7 +1802,7 @@ void     divf(void)
     float   divisor = fetch_float_operand();
     
     if ( divisor == 0.0 )
-	trap(TRAP_DIV_BY_ZERO);
+	trap(ECISC_TRAP_DIV_BY_ZERO);
     
     /* Second operand is shift count */
     store_float_operand(dividend / divisor);
@@ -1828,7 +1828,7 @@ void     remb(void)
     int8_t divisor = fetch_byte_operand();
     
     if ( divisor == 0 )
-	trap(TRAP_DIV_BY_ZERO);
+	trap(ECISC_TRAP_DIV_BY_ZERO);
     
     /* Second operand is shift count */
     store_byte_operand(dividend % divisor);
@@ -1847,7 +1847,7 @@ void     rems(void)
     int16_t divisor = fetch_short_operand();
     
     if ( divisor == 0 )
-	trap(TRAP_DIV_BY_ZERO);
+	trap(ECISC_TRAP_DIV_BY_ZERO);
     
     /* Second operand is shift count */
     store_short_operand(dividend % divisor);
@@ -1866,7 +1866,7 @@ void     reml(void)
     int32_t divisor = fetch_long_operand();
     
     if ( divisor == 0 )
-	trap(TRAP_DIV_BY_ZERO);
+	trap(ECISC_TRAP_DIV_BY_ZERO);
     
     /* Second operand is shift count */
     store_long_operand(dividend % divisor);
@@ -1886,7 +1886,7 @@ void     inputb(void)
     /* First operand is I/O address */
     switch(fetch_byte_operand())
     {
-	case    IO_SERIAL1:
+	case    ECISC_IO_SERIAL1:
 	    store_byte_operand(getchar());
 	    break;
 	default:
@@ -1919,7 +1919,7 @@ void outputb(void)
     /* Second operand is I/O address */
     switch(fetch_byte_operand())
     {
-	case    IO_SERIAL1:
+	case    ECISC_IO_SERIAL1:
 	    putchar(operand1);
 	    fflush(stdout);
 	    break;

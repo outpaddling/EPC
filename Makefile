@@ -53,7 +53,7 @@ MAN     = epc.1
 ############################################################################
 # List object files that comprise BIN.
 
-OBJS    = epc.o epc-cisc.o
+OBJS    = epc.o ecisc.o
 
 ############################################################################
 # Compile, link, and install options
