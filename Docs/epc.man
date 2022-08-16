@@ -95,14 +95,14 @@ provided the same version is running on school systems.
 To use
 .B EPC:
 
-1. Edit the assembly source code, file.epc
+1. Edit the assembly source code, file.ecisc
 
 2. Assembly the code using
 .B plasm:
 
 .nf
 .na
-    plasm program.epc
+    plasm program.ecisc
 .ad
 .fi
 

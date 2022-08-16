@@ -1,6 +1,6 @@
 
-	.include    "macros.epc"
-	.include    "io.epc"
+	.include    "macros.ecisc"
+	.include    "io.ecisc"
 
 ok_msg:     .string "OK\r\n\0"
 error_msg:  .string "Error.\r\n\0"

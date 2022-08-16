@@ -153,15 +153,15 @@ install: all
 	${INSTALL} -s -m 0555 ${BIN} ${DESTDIR}${PREFIX}/bin
 	${INSTALL} -m 0444 Docs/epc.man ${DESTDIR}${MANPREFIX}/man/man1/${MAN}
 	${MKDIR} -p ${DESTDIR}${DATADIR}/include
-	${INSTALL} -m 0444 Examples/macros.epc ${DESTDIR}${DATADIR}/include
-	${INSTALL} -m 0444 Examples/io.epc ${DESTDIR}${DATADIR}/include
+	${INSTALL} -m 0444 Examples/macros.ecisc ${DESTDIR}${DATADIR}/include
+	${INSTALL} -m 0444 Examples/io.ecisc ${DESTDIR}${DATADIR}/include
 	${MKDIR} -p ${DESTDIR}${DATADIR}/Examples
-	${INSTALL} -m 0444 Examples/bench.epc ${DESTDIR}${DATADIR}/Examples
-	${INSTALL} -m 0444 Examples/echo.epc ${DESTDIR}${DATADIR}/Examples
-	${INSTALL} -m 0444 Examples/float.epc ${DESTDIR}${DATADIR}/Examples
-	${INSTALL} -m 0444 Examples/loop.epc ${DESTDIR}${DATADIR}/Examples
-	${INSTALL} -m 0444 Examples/hello.epc ${DESTDIR}${DATADIR}/Examples
-	${INSTALL} -m 0444 Examples/torture.epc ${DESTDIR}${DATADIR}/Examples
+	${INSTALL} -m 0444 Examples/bench.ecisc ${DESTDIR}${DATADIR}/Examples
+	${INSTALL} -m 0444 Examples/echo.ecisc ${DESTDIR}${DATADIR}/Examples
+	${INSTALL} -m 0444 Examples/float.ecisc ${DESTDIR}${DATADIR}/Examples
+	${INSTALL} -m 0444 Examples/loop.ecisc ${DESTDIR}${DATADIR}/Examples
+	${INSTALL} -m 0444 Examples/hello.ecisc ${DESTDIR}${DATADIR}/Examples
+	${INSTALL} -m 0444 Examples/torture.ecisc ${DESTDIR}${DATADIR}/Examples
 
 proto:
 	cproto ${INCLUDES} *.c > temp.h && mv -f temp.h protos.h

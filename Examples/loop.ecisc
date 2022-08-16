@@ -5,8 +5,8 @@
 #
 ############################################################################
 
-	.include "macros.epc"
-	.include "io.epc"
+	.include "macros.ecisc"
+	.include "io.ecisc"
 	    
 # Local variables for main
 num:        .long   0
