@@ -8,13 +8,13 @@
 	.include "macros.ecisc"
 	.include "io.ecisc"
 
-NL:     .byte   10
-CR:     .byte   13
-TAB:    .byte   9
+NL:     .int8   10
+CR:     .int8   13
+TAB:    .int8   9
 	
 # Local variables for main
 
-x:      .float  0.0
+x:      .float32  0.0
 
 # Body
 

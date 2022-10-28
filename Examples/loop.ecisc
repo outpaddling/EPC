@@ -9,15 +9,15 @@
 	.include "io.ecisc"
 	    
 # Local variables for main
-num:        .long   0
-max_num:    .long   0
-BASE:       .long   10
+num:        .int32   0
+max_num:    .int32   0
+BASE:       .int32   10
 
-NL:         .byte   10
-CR:         .byte   13
-TAB:        .byte   9
+NL:         .int8   10
+CR:         .int8   13
+TAB:        .int8   9
 
-screen:     .byte   0x02
+screen:     .int8   0x02
 
 max_prompt: .string "Enter the maximum number: "
 

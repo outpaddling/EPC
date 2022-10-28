@@ -8,8 +8,8 @@ passed_msg: .string "All tests passed.\r\n\0"
 
 blt_msg:    .string "Testing blt <, =, and >\r\n\0"
 
-ptr:        .long   0
-ch:         .byte   0
+ptr:        .int32   0
+ch:         .int8   0
 
 
 #############################################

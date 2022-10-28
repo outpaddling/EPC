@@ -1,5 +1,5 @@
 
-x:      .long   0
+x:      .int32   0
 
 main:
 	movl    10000000, r0

@@ -8,11 +8,11 @@
 ############################################################################
 
 # Local variables (prefix names with subprogram name)
-print_long_base:    .long   0
-print_long_num:     .long   0
-print_long_pow:     .long   0
-print_long_digit:   .long   0
-print_long_ra:      .long   0
+print_long_base:    .int32   0
+print_long_num:     .int32   0
+print_long_pow:     .int32   0
+print_long_digit:   .int32   0
+print_long_ra:      .int32   0
 
 # Body
 
@@ -72,10 +72,10 @@ print_long_output:
 #
 ############################################################################
 
-read_long_ra:       .long   0
-read_long_base:     .long   0
-read_long_digit:    .long   0
-read_long_ch:       .byte   0
+read_long_ra:       .int32   0
+read_long_base:     .int32   0
+read_long_digit:    .int32   0
+read_long_ch:       .int8   0
 read_long_bad_digit:    .string "Invalid digit.\r\n\0"
 
 read_long:
@@ -140,7 +140,7 @@ read_long_error:
 #
 ############################################################################
 
-puts_ra:    .long   0
+puts_ra:    .int32   0
 
 puts:
 	# Get arguments from stack
@@ -165,19 +165,19 @@ puts_loop:
 ############################################################################
 
 # Local variables (prefix names with subprogram name)
-print_float_base:   .float  10.0
-print_float_num:    .float  0.0
-print_float_pow:    .float  0.0
-print_float_pow2:   .float  0.0
-print_float_temp:   .float  0.0
+print_float_base:   .float32  10.0
+print_float_num:    .float32  0.0
+print_float_pow:    .float32  0.0
+print_float_pow2:   .float32  0.0
+print_float_temp:   .float32  0.0
 
-print_float_ra:             .long   0
-print_float_digit:          .long   0
-print_float_total_digits:   .long   0
-print_float_decimal_places: .long   0
-print_float_chars:          .long   0
-print_float_whole_digits:   .long   0
-print_float_first_digit:    .long   0
+print_float_ra:             .int32   0
+print_float_digit:          .int32   0
+print_float_total_digits:   .int32   0
+print_float_decimal_places: .int32   0
+print_float_chars:          .int32   0
+print_float_whole_digits:   .int32   0
+print_float_first_digit:    .int32   0
 
 # Body
 
