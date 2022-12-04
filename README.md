@@ -125,7 +125,7 @@ Community support for pkgsrc is available through the
 
 ### Building epc locally
 
-Below are cave man install instructions for development purposes, not
+Below are caveman install instructions for development purposes, not
 recommended for regular use.
 epc depends on [plasm](https://github.com/outpaddling/plasm).
 Install plasm before attempting to build epc.
